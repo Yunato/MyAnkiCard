@@ -11,7 +11,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val fragment = MainFragment.newInstance()
-        supportFragmentManager.beginTransaction().replace(R.id.content, fragment).commit()
+        val fm = supportFragmentManager
+        var fragment = fm.findFragmentById(R.id.fragment_container)
+
+        if (fragment == null){
+            fragment = MainFragment.newInstance()
+            fm.beginTransaction().replace(R.id.fragment_container, fragment).commit()
+        }
     }
 }
