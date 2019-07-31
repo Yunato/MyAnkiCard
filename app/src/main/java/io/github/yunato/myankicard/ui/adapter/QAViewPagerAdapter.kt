@@ -12,13 +12,45 @@ import kotlinx.android.synthetic.main.view_holder_qa.view.*
 class QAViewPagerAdapter(val fragment: Fragment): PagerAdapter() {
 
     private var qaList = listOf<AnkiCard>().toMutableList()
+    private val elementNum = 100
+
+    fun initializeQA() {
+        qaList.clear()
+
+        for (i in 0 until elementNum) {
+            // TODO Set initial value to qaList
+            // qaList.add()
+        }
+    }
+
+    fun forwardQA() {
+        for (i in 0 until 3) {
+            qaList.removeAt(0)
+        }
+
+        for (i in 0 until 3) {
+            // TODO Add value to qaList
+            // qaList.add()
+        }
+    }
+
+    fun rewindQA() {
+        for (i in 0 until 3) {
+            qaList.removeAt(5 - i - 1)
+        }
+
+        for (i in 0 until 3) {
+            // TODO Add value to qaList
+            // qaList.add(0, )
+        }
+    }
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
         return view == `object`
     }
 
     override fun getCount(): Int {
-        return 100
+        return elementNum
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
