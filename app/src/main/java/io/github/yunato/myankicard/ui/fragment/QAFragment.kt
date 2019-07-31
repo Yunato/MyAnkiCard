@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_qa.view.*
 
 class QAFragment : Fragment() {
 
-    lateinit var cardList: List<AnkiCard>
+    lateinit var mCardList: List<AnkiCard>
 
     val adapter: QAViewPagerAdapter = QAViewPagerAdapter(this)
 
@@ -55,14 +55,18 @@ class QAFragment : Fragment() {
 
     fun fetchAnkiCardFromLambda() {
         val getTask = DailyCardsTask()
+        getTask.setOnFinishListener(object: DailyCardsTask.OnFinishListener {
+            override fun onFinish(cardList: List<AnkiCard>) {
+                mCardList = cardList
+            }
+        })
         getTask.execute()
-        cardList = listOf()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        adapter.initializeQA(cardList)
+        adapter.initializeQA(mCardList)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
