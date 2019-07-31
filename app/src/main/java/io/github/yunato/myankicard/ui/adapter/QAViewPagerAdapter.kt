@@ -6,20 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.github.yunato.myankicard.R
-import io.github.yunato.myankicard.model.entity.AnkiCard
 import kotlinx.android.synthetic.main.view_holder_qa.view.*
+import kotlin.random.Random
 
-class QAViewPagerAdapter(val fragment: Fragment): PagerAdapter() {
+class QAViewPagerAdapter(private val fragment: Fragment): PagerAdapter() {
 
-    private var qaList = listOf<AnkiCard>().toMutableList()
-    private val elementNum = 100
+    private var qaList = listOf<Int>().toMutableList()
+    private val elementNum = 5
 
     fun initializeQA() {
         qaList.clear()
 
         for (i in 0 until elementNum) {
-            // TODO Set initial value to qaList
-            // qaList.add()
+            qaList.add(Random.nextInt(10))
         }
     }
 
@@ -29,8 +28,7 @@ class QAViewPagerAdapter(val fragment: Fragment): PagerAdapter() {
         }
 
         for (i in 0 until 3) {
-            // TODO Add value to qaList
-            // qaList.add()
+            qaList.add(Random.nextInt(10))
         }
     }
 
@@ -55,7 +53,7 @@ class QAViewPagerAdapter(val fragment: Fragment): PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = LayoutInflater.from(fragment.context).inflate(R.layout.view_holder_qa, container, false)
-        view.textView.text = position.toString()
+        view.textView.text = qaList[position].toString()
 
         container.addView(view)
 
