@@ -7,12 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.github.yunato.myankicard.R
+import io.github.yunato.myankicard.model.entity.AnkiCard
+import io.github.yunato.myankicard.other.aws.DailyCardsTask
 import io.github.yunato.myankicard.other.timer.MyCountDownTimer
 import io.github.yunato.myankicard.ui.adapter.QAViewPagerAdapter
 import kotlinx.android.synthetic.main.fragment_qa.*
 import kotlinx.android.synthetic.main.fragment_qa.view.*
 
 class QAFragment : Fragment() {
+
+    lateinit var cardList: List<AnkiCard>
 
     val adapter: QAViewPagerAdapter = QAViewPagerAdapter(this)
 
@@ -49,10 +53,16 @@ class QAFragment : Fragment() {
     private var pageIndex: Int = 0
     private var qaIndex: Int = 0
 
+    fun fetchAnkiCardFromLambda() {
+        val getTask = DailyCardsTask()
+        getTask.execute()
+        cardList = listOf()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        adapter.initializeQA()
+        adapter.initializeQA(cardList)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

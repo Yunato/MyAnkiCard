@@ -11,12 +11,14 @@ import io.github.yunato.myankicard.ui.fragment.StartFragment
 
 class QAActivity : AppCompatActivity() {
 
+    private var qaFragment: QAFragment = QAFragment.newInstance()
+
     private val startListener: StartFragment.OnFinishListener = object: StartFragment.OnFinishListener {
         override fun onFinish() {
-            val fragment = QAFragment.newInstance()
-            fragment.setOnFinishListener(qaListener)
+            // TODO Put together Initialize of qaFragment
+            qaFragment.setOnFinishListener(qaListener)
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment).commit()
+                .replace(R.id.fragment_container, qaFragment).commit()
         }
     }
 
@@ -43,6 +45,7 @@ class QAActivity : AppCompatActivity() {
         var fragment = fm.findFragmentById(R.id.fragment_container)
 
         if (fragment == null){
+            qaFragment.fetchAnkiCardFromLambda()
             fragment = StartFragment.newInstance()
             fragment.setOnFinishListener(startListener)
             fm.beginTransaction().replace(R.id.fragment_container, fragment).commit()

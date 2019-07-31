@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.github.yunato.myankicard.R
+import io.github.yunato.myankicard.model.entity.AnkiCard
 import kotlinx.android.synthetic.main.view_holder_qa.view.*
 import kotlin.random.Random
 
@@ -14,7 +15,7 @@ class QAViewPagerAdapter(private val fragment: Fragment): PagerAdapter() {
     private var qaList = listOf<Int>().toMutableList()
     private val elementNum = 5
 
-    fun initializeQA() {
+    fun initializeQA(cardList: List<AnkiCard>) {
         qaList.clear()
 
         for (i in 0 until elementNum) {
