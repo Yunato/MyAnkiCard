@@ -4,4 +4,9 @@
     <dimen name="btn_margin">15dp</dimen>
     <dimen name="btn_padding">30dp</dimen>
     <dimen name="btn_text_size">14sp</dimen>
+
+    <!--TextView-->
+    <dimen name="text_view_margin">15dp</dimen>
+    <dimen name="text_view_padding">30dp</dimen>
+    <dimen name="text_view_text_size">14sp</dimen>
 </resources>
