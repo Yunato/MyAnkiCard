@@ -4,4 +4,7 @@
     <!--MainFragment-->
     <string name="daily_button_text">Daily</string>
     <string name="random_button_text">Random</string>
+
+    <!--StartFragment-->
+    <string name="start_text">Start</string>
 </resources>

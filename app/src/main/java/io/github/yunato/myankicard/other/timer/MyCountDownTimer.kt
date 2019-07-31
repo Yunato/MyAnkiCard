@@ -10,7 +10,9 @@ class MyCountDownTimer(millisInFuture: Long,
         mListener = listener
     }
 
-    override fun onTick(millisUntilFinished: Long) {}
+    override fun onTick(millisUntilFinished: Long) {
+        mListener?.onProgress(millisUntilFinished)
+    }
 
     override fun onFinish(){
         mListener?.onProgress(0)
