@@ -94,8 +94,7 @@ class QAFragment : Fragment() {
         timer?.setOnProgressListener(object: MyCountDownTimer.OnProgressListener{
             override fun onProgress(time: Long) {
                 if(time == 0L){
-                    // TODO 50 is MagicNumber
-                    if (qaIndex == 50) {
+                    if (qaIndex == mCardList.size - 1) {
                         // TODO Each Value
                         mListener?.onFinish(0, 0, 0)
                     } else {
