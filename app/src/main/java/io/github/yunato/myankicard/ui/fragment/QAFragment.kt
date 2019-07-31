@@ -82,6 +82,8 @@ class QAFragment : Fragment() {
                 if(time == 0L){
                     // TODO 50 is MagicNumber
                     if (qaIndex == 50) {
+                        // TODO Each Value
+                        mListener?.onFinish(0, 0, 0)
                     } else {
                         ++qaIndex
                         viewPager.setCurrentItem(++pageIndex, true)

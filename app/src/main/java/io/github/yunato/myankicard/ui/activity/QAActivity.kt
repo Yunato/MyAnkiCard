@@ -13,8 +13,19 @@ class QAActivity : AppCompatActivity() {
 
     private val startListener: StartFragment.OnFinishListener = object: StartFragment.OnFinishListener {
         override fun onFinish() {
+            val fragment = QAFragment.newInstance()
+            fragment.setOnFinishListener(qaListener)
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, QAFragment.newInstance()).commit()
+                .replace(R.id.fragment_container, fragment).commit()
+        }
+    }
+
+    private val qaListener: QAFragment.OnFinishListener = object: QAFragment.OnFinishListener {
+        override fun onFinish(quest_num: Int, correct_num: Int, mistake_num: Int) {
+            val fragment = EndFragment.newInstance(quest_num, correct_num, mistake_num)
+            fragment.setOnFinishListener(endListener)
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragment).commit()
         }
     }
 
