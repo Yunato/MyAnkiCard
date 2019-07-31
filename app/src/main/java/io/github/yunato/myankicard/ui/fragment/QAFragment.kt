@@ -8,7 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.github.yunato.myankicard.R
+import io.github.yunato.myankicard.other.timer.MyCountDownTimer
 import io.github.yunato.myankicard.ui.adapter.QAViewPagerAdapter
+import kotlinx.android.synthetic.main.fragment_qa.*
 import kotlinx.android.synthetic.main.fragment_qa.view.*
 
 class QAFragment : Fragment() {
@@ -43,6 +45,9 @@ class QAFragment : Fragment() {
         }
     }
 
+    private var timer: MyCountDownTimer? = null
+    private var pageIndex: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -55,8 +60,35 @@ class QAFragment : Fragment() {
         view.viewPager.addOnPageChangeListener(viewPagerListener)
         view.viewPager.adapter = adapter
         view.viewPager.setCurrentItem(1, false)
+        pageIndex = 1
 
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        startAutoSwipe()
+    }
+
+    private fun startAutoSwipe(){
+        val millisInFuture = 5 * 1000L
+        val interval = 200L
+        timer?.cancel()
+        timer = MyCountDownTimer(millisInFuture, interval)
+        timer?.setOnProgressListener(object: MyCountDownTimer.OnProgressListener{
+            override fun onProgress(time: Long) {
+                if(time == 0L){
+                    if (pageIndex == 100) {
+                    } else {
+                        ++pageIndex
+                        startAutoSwipe()
+                    }
+                }
+            }
+        })
+        viewPager.currentItem = pageIndex
+        timer?.start()
     }
 
     interface OnFragmentInteractionListener {
