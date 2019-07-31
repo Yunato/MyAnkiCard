@@ -37,6 +37,8 @@ class QAViewPagerAdapter(private val fragment: Fragment): PagerAdapter() {
         }
     }
 
+    fun getAnsCorrect(index: Int): Boolean = qaList[index].is_correct
+
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
         return view == `object`
     }
@@ -54,6 +56,10 @@ class QAViewPagerAdapter(private val fragment: Fragment): PagerAdapter() {
         }
         view.question_text.text = ankiCard.question
         view.answer_text.text = ankiCard.answer
+        view.tag = ankiCard
+        view.setOnClickListener{
+            qaList[position].is_correct = false
+        }
 
         container.addView(view)
 

@@ -5,4 +5,4 @@ data class AnkiCard(val timestamp: Int,
                     val answer: String,
                     val next_date: Int,
                     val consecutive: Int,
-                    val is_correct: Boolean)
+                    var is_correct: Boolean)

@@ -52,6 +52,7 @@ class QAFragment : Fragment() {
     private var timer: MyCountDownTimer? = null
     private var pageIndex: Int = 0
     private var qaIndex: Int = 0
+    private var mistake_num: Int = 0
 
     fun fetchAnkiCardFromLambda() {
         val getTask = DailyCardsTask()
@@ -87,16 +88,18 @@ class QAFragment : Fragment() {
 
     private fun startAutoSwipe(){
         // TODO Text Length
-        val millisInFuture = 1 * 1000L
+        val millisInFuture = 3 * 1000L
         val interval = 200L
         timer?.cancel()
         timer = MyCountDownTimer(millisInFuture, interval)
         timer?.setOnProgressListener(object: MyCountDownTimer.OnProgressListener{
             override fun onProgress(time: Long) {
                 if(time == 0L){
+                    val isCorrect = (viewPager.adapter as QAViewPagerAdapter).getAnsCorrect(pageIndex)
+                    mCardList[qaIndex].is_correct = isCorrect
+                    if (!isCorrect) ++mistake_num
                     if (qaIndex == mCardList.size - 1) {
-                        // TODO Each Value
-                        mListener?.onFinish(0, 0, 0)
+                        mListener?.onFinish(mCardList.size, mCardList.size - mistake_num, mistake_num)
                     } else {
                         ++qaIndex
                         viewPager.setCurrentItem(++pageIndex, true)

@@ -32,8 +32,8 @@ class EndFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         quest_num_text.text = String.format("%s%s", activity?.getText(R.string.quest_num_text), questNum.toString())
-        correct_num_text.text = String.format("%s%s", activity?.getText(R.string.correct_num_text), questNum.toString())
-        mistake_num_text.text = String.format("%s%s", activity?.getText(R.string.mistake_num_text), questNum.toString())
+        correct_num_text.text = String.format("%s%s", activity?.getText(R.string.correct_num_text), correctNum.toString())
+        mistake_num_text.text = String.format("%s%s", activity?.getText(R.string.mistake_num_text), mistakeNum.toString())
         return_button.setOnClickListener{
             mListener?.onFinish()
         }
