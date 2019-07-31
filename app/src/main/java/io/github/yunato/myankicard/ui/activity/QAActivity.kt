@@ -1,5 +1,7 @@
 package io.github.yunato.myankicard.ui.activity
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import io.github.yunato.myankicard.R
@@ -18,5 +20,9 @@ class QAActivity : AppCompatActivity() {
             fragment = QAFragment.newInstance()
             fm.beginTransaction().replace(R.id.fragment_container, fragment).commit()
         }
+    }
+
+    companion object{
+        fun intent(context: Context): Intent = Intent(context, QAActivity::class.java)
     }
 }
