@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import io.github.yunato.myankicard.R
+import io.github.yunato.myankicard.ui.fragment.EndFragment
 import io.github.yunato.myankicard.ui.fragment.QAFragment
 import io.github.yunato.myankicard.ui.fragment.StartFragment
 
@@ -14,6 +15,12 @@ class QAActivity : AppCompatActivity() {
         override fun onFinish() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, QAFragment.newInstance()).commit()
+        }
+    }
+
+    private val endListener: EndFragment.OnFinishListener = object: EndFragment.OnFinishListener {
+        override fun onFinish() {
+            finish()
         }
     }
 

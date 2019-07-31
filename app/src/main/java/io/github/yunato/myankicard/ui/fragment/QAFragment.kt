@@ -1,6 +1,5 @@
 package io.github.yunato.myankicard.ui.fragment
 
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
@@ -17,7 +16,7 @@ class QAFragment : Fragment() {
 
     val adapter: QAViewPagerAdapter = QAViewPagerAdapter(this)
 
-    private var listener: OnFragmentInteractionListener? = null
+    private var mListener: OnFinishListener? = null
 
     private val viewPagerListener: ViewPager.OnPageChangeListener = object: ViewPager.OnPageChangeListener {
 
@@ -94,8 +93,12 @@ class QAFragment : Fragment() {
         timer?.start()
     }
 
-    interface OnFragmentInteractionListener {
-        fun onFragmentInteraction(uri: Uri)
+    fun setOnFinishListener(listener: OnFinishListener){
+        mListener = listener
+    }
+
+    interface OnFinishListener {
+        fun onFinish(quest_num: Int, correct_num: Int, mistake_num: Int)
     }
 
     companion object {

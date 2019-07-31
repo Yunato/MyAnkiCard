@@ -7,4 +7,10 @@
 
     <!--StartFragment-->
     <string name="start_text">Start</string>
+
+    <!--EndFragment-->
+    <string name="quest_num_text">問題数 : </string>
+    <string name="correct_num_text">正答数 : </string>
+    <string name="mistake_num_text">誤答数 : </string>
+    <string name="return_button_text">メニューへ</string>
 </resources>

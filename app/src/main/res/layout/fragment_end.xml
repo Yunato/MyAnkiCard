@@ -1,8 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".ui.fragment.EndFragment">
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.fragment.EndFragment">
 
-</FrameLayout>
+    <TextView
+            android:id="@+id/quest_num_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_view_margin"
+            android:padding="@dimen/text_view_padding"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/correct_num_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:textAlignment="center"
+            android:textSize="@dimen/btn_text_size"/>
+
+    <TextView
+            android:id="@+id/correct_num_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_view_margin"
+            android:padding="@dimen/text_view_padding"
+
+            app:layout_constraintTop_toBottomOf="@id/quest_num_text"
+            app:layout_constraintBottom_toTopOf="@id/mistake_num_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:textAlignment="center"
+            android:textSize="@dimen/btn_text_size"/>
+
+    <TextView
+            android:id="@+id/mistake_num_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_view_margin"
+            android:padding="@dimen/text_view_padding"
+
+            app:layout_constraintTop_toBottomOf="@id/correct_num_text"
+            app:layout_constraintBottom_toTopOf="@id/return_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:textAlignment="center"
+            android:textSize="@dimen/btn_text_size"/>
+
+    <Button
+            android:id="@+id/return_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/btn_margin"
+            android:padding="@dimen/btn_padding"
+
+            app:layout_constraintTop_toBottomOf="@id/mistake_num_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:text="@string/return_button_text"
+            android:textSize="@dimen/btn_text_size"/>
+
+</android.support.constraint.ConstraintLayout>
