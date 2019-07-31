@@ -6,8 +6,16 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import io.github.yunato.myankicard.R
 import io.github.yunato.myankicard.ui.fragment.QAFragment
+import io.github.yunato.myankicard.ui.fragment.StartFragment
 
 class QAActivity : AppCompatActivity() {
+
+    private val startListener: StartFragment.OnFinishListener = object: StartFragment.OnFinishListener {
+        override fun onFinish() {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, QAFragment.newInstance()).commit()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,7 +25,8 @@ class QAActivity : AppCompatActivity() {
         var fragment = fm.findFragmentById(R.id.fragment_container)
 
         if (fragment == null){
-            fragment = QAFragment.newInstance()
+            fragment = StartFragment.newInstance()
+            fragment.setOnFinishListener(startListener)
             fm.beginTransaction().replace(R.id.fragment_container, fragment).commit()
         }
     }
