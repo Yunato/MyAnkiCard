@@ -12,6 +12,7 @@ import java.util.*
 class InitialActivity : AppCompatActivity() {
 
     private var stamp: Long = 0
+    lateinit var mCardList: List<AnkiCard>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +29,6 @@ class InitialActivity : AppCompatActivity() {
             fetchAnkiCardFromLambda()
         } else {
             fetchAnkiCardFromLambda()
-            startMainActivity()
         }
     }
 
@@ -56,6 +56,7 @@ class InitialActivity : AppCompatActivity() {
         val getTask = DailyCardsTask()
         getTask.setOnFinishListener(object: DailyCardsTask.OnFinishListener {
             override fun onFinish(cardList: List<AnkiCard>) {
+                mCardList = cardList
                 startMainActivity()
             }
         })

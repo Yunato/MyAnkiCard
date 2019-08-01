@@ -1,8 +1,12 @@
 package io.github.yunato.myankicard.model.entity
 
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-data class AnkiCard(val timestamp: Long,
+@Entity
+data class AnkiCard(@PrimaryKey
+                    val timestamp: Long,
                     @SerializedName("category1")
                     val mainCategory: String,
                     @SerializedName("category2")
@@ -14,4 +18,5 @@ data class AnkiCard(val timestamp: Long,
                     @SerializedName("date_available_for_questions")
                     val nextDate: Long,
                     @SerializedName("number_of_consecutive_correct_answers")
-                    val consecutive: Long)
+                    val consecutive: Long,
+                    var isCorrect: Boolean)
