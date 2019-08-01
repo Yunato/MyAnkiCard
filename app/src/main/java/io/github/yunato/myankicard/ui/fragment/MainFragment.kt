@@ -19,8 +19,12 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        daily_button.setOnClickListener{
-            startActivity(QAActivity.intent(activity as Context))
+        daily_learn_button.setOnClickListener {
+            startActivity(QAActivity.intent(activity as Context, QAActivity.STATE_LEARN))
+        }
+
+        daily_test_button.setOnClickListener {
+            startActivity(QAActivity.intent(activity as Context, QAActivity.STATE_TEST_DAILY))
         }
     }
 

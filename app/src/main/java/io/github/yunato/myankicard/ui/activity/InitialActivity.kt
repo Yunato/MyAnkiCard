@@ -29,7 +29,7 @@ class InitialActivity : AppCompatActivity() {
             // TODO Check Interrupt
             fetchAnkiCardFromLambda()
         } else {
-            fetchAnkiCardFromLambda()
+            startMainActivity()
         }
     }
 

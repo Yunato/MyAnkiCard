@@ -5,13 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import io.github.yunato.myankicard.R
-import io.github.yunato.myankicard.ui.fragment.EndFragment
-import io.github.yunato.myankicard.ui.fragment.QAFragment
-import io.github.yunato.myankicard.ui.fragment.StartFragment
+import io.github.yunato.myankicard.ui.fragment.*
 
 class QAActivity : AppCompatActivity() {
 
-    private var qaFragment: QAFragment = QAFragment.newInstance()
+    private var state: Int = STATE_LEARN
+    private lateinit var qaFragment: QAFragment
 
     private val startListener: StartFragment.OnFinishListener = object: StartFragment.OnFinishListener {
         override fun onFinish() {
@@ -43,14 +42,18 @@ class QAActivity : AppCompatActivity() {
         }
     }
 
-    init {
-        qaFragment.setOnReadyListener(qaReadyListener)
-        qaFragment.setOnFinishListener(qaListener)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qa)
+
+        state = intent.getIntExtra(STATE_EXTRA, STATE_LEARN)
+        qaFragment = when (state) {
+            STATE_LEARN -> LearnQAFragment.newInstance()
+            STATE_TEST_DAILY -> TestQAFragment.newInstance()
+            else -> throw IllegalStateException("State is not correct")
+        }
+        qaFragment.setOnReadyListener(qaReadyListener)
+        qaFragment.setOnFinishListener(qaListener)
 
         val fm = supportFragmentManager
         val fragment = fm.findFragmentById(R.id.fragment_container)
@@ -61,6 +64,12 @@ class QAActivity : AppCompatActivity() {
     }
 
     companion object{
-        fun intent(context: Context): Intent = Intent(context, QAActivity::class.java)
+        @JvmStatic private val STATE_EXTRA = "io.github.yunato.myankicard.ui.activity.STATE_EXTRA"
+        @JvmStatic val STATE_LEARN = 0
+        @JvmStatic val STATE_TEST_DAILY = 1
+        @JvmStatic val STATE_TEST_RANDOM = 2
+
+        fun intent(context: Context, state: Int): Intent =
+            Intent(context, QAActivity::class.java).putExtra(STATE_EXTRA, state)
     }
 }

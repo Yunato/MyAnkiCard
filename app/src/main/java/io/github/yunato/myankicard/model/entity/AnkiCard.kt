@@ -19,4 +19,5 @@ data class AnkiCard(@PrimaryKey
                     val nextDate: Long,
                     @SerializedName("number_of_consecutive_correct_answers")
                     val consecutive: Long,
-                    var isCorrect: Boolean)
+                    var isCorrect: Boolean,
+                    var isDaily: Boolean)

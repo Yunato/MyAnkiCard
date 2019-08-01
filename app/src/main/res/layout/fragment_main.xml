@@ -8,14 +8,14 @@
         tools:context=".ui.fragment.MainFragment">
 
     <Button
-            android:id="@+id/daily_button"
+            android:id="@+id/daily_learn_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/btn_margin"
             android:padding="@dimen/btn_padding"
 
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/random_button"
+            app:layout_constraintBottom_toTopOf="@id/daily_test_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 
@@ -23,13 +23,28 @@
             android:textSize="@dimen/btn_text_size"/>
 
     <Button
-            android:id="@+id/random_button"
+            android:id="@+id/daily_test_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/btn_margin"
             android:padding="@dimen/btn_padding"
 
-            app:layout_constraintTop_toBottomOf="@id/daily_button"
+            app:layout_constraintTop_toBottomOf="@id/daily_learn_button"
+            app:layout_constraintBottom_toTopOf="@id/random_test_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:text="@string/daily_test_button_text"
+            android:textSize="@dimen/btn_text_size"/>
+
+    <Button
+            android:id="@+id/random_test_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/btn_margin"
+            android:padding="@dimen/btn_padding"
+
+            app:layout_constraintTop_toBottomOf="@id/daily_test_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

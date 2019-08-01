@@ -3,6 +3,7 @@
 
     <!--MainFragment-->
     <string name="daily_button_text">Daily</string>
+    <string name="daily_test_button_text">Daily Test</string>
     <string name="random_button_text">Random</string>
 
     <!--StartFragment-->
@@ -13,4 +14,5 @@
     <string name="correct_num_text">正答数 :</string>
     <string name="mistake_num_text">誤答数 :</string>
     <string name="return_button_text">メニューへ</string>
+
 </resources>
