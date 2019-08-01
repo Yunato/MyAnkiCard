@@ -17,6 +17,9 @@ interface AnkiCardDao {
     @Query("SELECT * FROM AnkiCard")
     fun findAll(): List<AnkiCard>
 
+    @Query("SELECT COUNT(*) FROM AnkiCard")
+    fun getCount(): Long
+
     @Query("DELETE FROM AnkiCard")
     fun deleteAll()
 }

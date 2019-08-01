@@ -15,8 +15,6 @@ class QAActivity : AppCompatActivity() {
 
     private val startListener: StartFragment.OnFinishListener = object: StartFragment.OnFinishListener {
         override fun onFinish() {
-            // TODO Put together Initialize of qaFragment
-            qaFragment.setOnFinishListener(qaListener)
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, qaFragment).commit()
         }
@@ -37,18 +35,28 @@ class QAActivity : AppCompatActivity() {
         }
     }
 
+    private val qaReadyListener: QAFragment.OnReadyListener = object: QAFragment.OnReadyListener {
+        override fun onReady() {
+            val fragment = StartFragment.newInstance()
+            fragment.setOnFinishListener(startListener)
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
+        }
+    }
+
+    init {
+        qaFragment.setOnReadyListener(qaReadyListener)
+        qaFragment.setOnFinishListener(qaListener)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qa)
 
         val fm = supportFragmentManager
-        var fragment = fm.findFragmentById(R.id.fragment_container)
+        val fragment = fm.findFragmentById(R.id.fragment_container)
 
         if (fragment == null){
-            qaFragment.fetchAnkiCardFromLambda()
-            fragment = StartFragment.newInstance()
-            fragment.setOnFinishListener(startListener)
-            fm.beginTransaction().replace(R.id.fragment_container, fragment).commit()
+            qaFragment.fetchQACardFromDB()
         }
     }
 

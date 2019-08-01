@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import io.github.yunato.myankicard.R
 import io.github.yunato.myankicard.model.entity.QACard
+import io.github.yunato.myankicard.other.application.App
 import io.github.yunato.myankicard.other.timer.MyCountDownTimer
 import io.github.yunato.myankicard.ui.adapter.QAViewPagerAdapter
 import kotlinx.android.synthetic.main.fragment_qa.*
 import kotlinx.android.synthetic.main.fragment_qa.view.*
+import kotlin.concurrent.thread
 
 class QAFragment : Fragment() {
 
@@ -19,7 +21,9 @@ class QAFragment : Fragment() {
 
     val adapter: QAViewPagerAdapter = QAViewPagerAdapter(this)
 
-    private var mListener: OnFinishListener? = null
+    private var finishListener: OnFinishListener? = null
+
+    private var readyListener: OnReadyListener? = null
 
     private val viewPagerListener: ViewPager.OnPageChangeListener = object: ViewPager.OnPageChangeListener {
 
@@ -53,8 +57,24 @@ class QAFragment : Fragment() {
     private var qaIndex: Int = 0
     private var mistake_num: Int = 0
 
-    fun fetchAnkiCardFromLambda() {
-        // TODO Access DB
+    fun fetchQACardFromDB() {
+        val dao = App.cardDataBase.ankiCardDao()
+        thread {
+            val cards = dao.findAll()
+            val qaCards = mutableListOf<QACard>()
+            for (card in cards) {
+                qaCards.add(QACard(
+                    card.timestamp,
+                    card.question,
+                    card.answer,
+                    card.nextDate,
+                    card.consecutive,
+                    card.isCorrect
+                ))
+            }
+            mCardList = qaCards
+            readyListener?.onReady()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,7 +112,7 @@ class QAFragment : Fragment() {
                     mCardList[qaIndex].is_correct = isCorrect
                     if (!isCorrect) ++mistake_num
                     if (qaIndex == mCardList.size - 1) {
-                        mListener?.onFinish(mCardList.size, mCardList.size - mistake_num, mistake_num)
+                        finishListener?.onFinish(mCardList.size, mCardList.size - mistake_num, mistake_num)
                     } else {
                         ++qaIndex
                         viewPager.setCurrentItem(++pageIndex, true)
@@ -104,8 +124,16 @@ class QAFragment : Fragment() {
         timer?.start()
     }
 
-    fun setOnFinishListener(listener: OnFinishListener){
-        mListener = listener
+    fun setOnReadyListener(listener: OnReadyListener) {
+        readyListener = listener
+    }
+
+    fun setOnFinishListener(listener: OnFinishListener) {
+        finishListener = listener
+    }
+
+    interface OnReadyListener {
+        fun onReady()
     }
 
     interface OnFinishListener {

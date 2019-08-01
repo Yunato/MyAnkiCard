@@ -6,8 +6,10 @@ import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import io.github.yunato.myankicard.R
 import io.github.yunato.myankicard.model.entity.AnkiCard
+import io.github.yunato.myankicard.other.application.App
 import io.github.yunato.myankicard.other.aws.DailyCardsTask
 import java.util.*
+import kotlin.concurrent.thread
 
 class InitialActivity : AppCompatActivity() {
 
@@ -25,7 +27,6 @@ class InitialActivity : AppCompatActivity() {
         stamp = getTodayStamp()
         if(getStamp() != stamp) {
             // TODO Check Interrupt
-            // TODO DB check
             fetchAnkiCardFromLambda()
         } else {
             fetchAnkiCardFromLambda()
@@ -57,10 +58,20 @@ class InitialActivity : AppCompatActivity() {
         getTask.setOnFinishListener(object: DailyCardsTask.OnFinishListener {
             override fun onFinish(cardList: List<AnkiCard>) {
                 mCardList = cardList
-                startMainActivity()
+                insertCardListToDB()
             }
         })
         getTask.execute()
+    }
+
+    private fun insertCardListToDB() {
+        val dao = App.cardDataBase.ankiCardDao()
+        thread {
+            for (card in mCardList) {
+                dao.insertCard(card)
+            }
+            startMainActivity()
+        }
     }
 
     private fun startMainActivity() {
