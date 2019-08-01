@@ -14,6 +14,9 @@ interface AnkiCardDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun updateCard(card: AnkiCard)
 
+    @Query("SELECT * FROM AnkiCard WHERE timestamp = :timestamp")
+    fun findOneCard(timestamp: Long): AnkiCard
+
     @Query("SELECT * FROM AnkiCard")
     fun findAll(): List<AnkiCard>
 

@@ -1,9 +1,11 @@
 package io.github.yunato.myankicard.ui.fragment
 
 
+import io.github.yunato.myankicard.other.application.App
 import io.github.yunato.myankicard.other.timer.MyCountDownTimer
 import io.github.yunato.myankicard.ui.adapter.QAViewPagerAdapter
 import kotlinx.android.synthetic.main.fragment_qa.*
+import kotlin.concurrent.thread
 
 class TestQAFragment : QAFragment() {
 
@@ -13,7 +15,13 @@ class TestQAFragment : QAFragment() {
         override fun onProgress(time: Long) {
             if(time == 0L){
                 val isCorrect = (viewPager.adapter as QAViewPagerAdapter).getAnsCorrect(pageIndex)
-                mCardList[qaIndex].is_correct = isCorrect
+                val dao = App.cardDataBase.ankiCardDao()
+                val index = qaIndex
+                thread {
+                    val card = dao.findOneCard(mCardList[index].timestamp)
+                    card.isCorrect = isCorrect
+                    App.cardDataBase.ankiCardDao().updateCard(card)
+                }
                 if (!isCorrect) ++mistakeNum
                 if (qaIndex == mCardList.size - 1) {
                     finishListener?.onFinish(mCardList.size, mCardList.size - mistakeNum, mistakeNum)
