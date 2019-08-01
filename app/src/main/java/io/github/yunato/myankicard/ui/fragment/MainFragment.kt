@@ -20,11 +20,11 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         daily_learn_button.setOnClickListener {
-            startActivity(QAActivity.intent(activity as Context, QAActivity.STATE_LEARN))
+            startActivity(QAActivity.intent(activity as Context, QAActivity.MODE_LEARN))
         }
 
         daily_test_button.setOnClickListener {
-            startActivity(QAActivity.intent(activity as Context, QAActivity.STATE_TEST_DAILY))
+            startActivity(QAActivity.intent(activity as Context, QAActivity.MODE_TEST_DAILY))
         }
     }
 

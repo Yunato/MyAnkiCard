@@ -90,15 +90,7 @@ abstract class QAFragment : Fragment() {
         super.onResume()
 
         if (hasPaused) {
-            AlertDialog.Builder(activity).apply {
-                setMessage(activity?.getText(R.string.dialog_message))
-                setPositiveButton(activity?.getText(R.string.dialog_positive_text)) { _, _ ->
-                    startAutoSwipe()
-                }
-                setNegativeButton(activity?.getText(R.string.dialog_negative_text)) { _, _ ->
-                    activity?.finish()
-                }
-            }.show()
+            showDialog()
         }
     }
 
@@ -107,6 +99,23 @@ abstract class QAFragment : Fragment() {
 
         hasPaused = true
         timer?.cancel()
+    }
+
+    fun onPressBackKey() {
+        timer?.cancel()
+        showDialog()
+    }
+
+    private fun showDialog() {
+        AlertDialog.Builder(activity).apply {
+            setMessage(activity?.getText(R.string.dialog_message))
+            setPositiveButton(activity?.getText(R.string.dialog_positive_text)) { _, _ ->
+                startAutoSwipe()
+            }
+            setNegativeButton(activity?.getText(R.string.dialog_negative_text)) { _, _ ->
+                activity?.finish()
+            }
+        }.show()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
