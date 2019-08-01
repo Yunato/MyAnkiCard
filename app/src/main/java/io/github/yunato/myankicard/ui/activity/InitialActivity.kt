@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import io.github.yunato.myankicard.R
-import io.github.yunato.myankicard.model.entity.QACard
+import io.github.yunato.myankicard.model.entity.AnkiCard
 import io.github.yunato.myankicard.other.aws.DailyCardsTask
 import java.util.*
 
@@ -27,6 +27,7 @@ class InitialActivity : AppCompatActivity() {
             // TODO DB check
             fetchAnkiCardFromLambda()
         } else {
+            fetchAnkiCardFromLambda()
             startMainActivity()
         }
     }
@@ -54,7 +55,7 @@ class InitialActivity : AppCompatActivity() {
     private fun fetchAnkiCardFromLambda() {
         val getTask = DailyCardsTask()
         getTask.setOnFinishListener(object: DailyCardsTask.OnFinishListener {
-            override fun onFinish(cardList: List<QACard>) {
+            override fun onFinish(cardList: List<AnkiCard>) {
                 startMainActivity()
             }
         })

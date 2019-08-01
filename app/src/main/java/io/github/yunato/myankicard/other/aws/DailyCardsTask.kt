@@ -7,6 +7,7 @@ import com.amazonaws.regions.Region
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.lambda.AWSLambdaClient
 import com.amazonaws.services.lambda.model.InvokeRequest
+import com.google.gson.Gson
 import io.github.yunato.myankicard.model.entity.AnkiCard
 import org.json.JSONObject
 import java.nio.charset.Charset
@@ -20,7 +21,6 @@ class DailyCardsTask : AsyncTask<Unit, Unit, String?>() {
     private lateinit var lambda: AWSLambdaClient
 
     private lateinit var request: InvokeRequest
-
 
     override fun onPreExecute() {
         credential = BasicAWSCredentials(ACCESS_KEY, SECRET_KEY)
@@ -47,18 +47,12 @@ class DailyCardsTask : AsyncTask<Unit, Unit, String?>() {
         val rtnList = mutableListOf<AnkiCard>()
         if (response != null) {
             try {
+                val gson = Gson()
                 val jsonData = JSONObject(response)
                 val subJsonData = jsonData.getJSONArray("Items")
-                for (index in 0..subJsonData.length()) {
-                    val data = subJsonData.getJSONObject(index)
-                    val item = AnkiCard(
-                        data.getInt("timestamp"),
-                        data.getString("question"),
-                        data.getString("answer"),
-                        data.getInt("date_available_for_questions"),
-                        data.getInt("number_of_consecutive_correct_answers"),
-                        true
-                    )
+                for (index in 0 until subJsonData.length()) {
+                    val jsonString = subJsonData[index].toString()
+                    val item = gson.fromJson(jsonString, AnkiCard::class.java)
                     rtnList.add(item)
                 }
             } catch (e: org.json.JSONException) {
