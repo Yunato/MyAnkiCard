@@ -11,31 +11,33 @@ import java.util.*
 
 class InitialActivity : AppCompatActivity() {
 
+    private var stamp: Long = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_initial)
-
-        val getTask = DailyCardsTask()
-        getTask.setOnFinishListener(object: DailyCardsTask.OnFinishListener {
-            override fun onFinish(cardList: List<AnkiCard>) {
-                startActivity(MainActivity.intent(this@InitialActivity))
-            }
-        })
-        getTask.execute()
     }
 
     override fun onResume() {
         super.onResume()
 
-        val now = Calendar.getInstance()
-        now.set(Calendar.HOUR, 0)
-        now.set(Calendar.MINUTE, 0)
-        now.set(Calendar.SECOND, 0)
-        now.set(Calendar.MILLISECOND, 0)
-        val stamp = now.time.time / 1000
-        if(getStamp() != stamp){
+        stamp = getTodayStamp()
+        if(getStamp() != stamp) {
+            // TODO Check Interrupt
             // TODO DB check
-            setStamp(stamp)
+            fetchAnkiCardFromLambda()
+        } else {
+            startMainActivity()
+        }
+    }
+
+    private fun getTodayStamp(): Long {
+        return Calendar.getInstance().run {
+            set(Calendar.HOUR, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+            timeInMillis / 1000
         }
     }
 
@@ -47,6 +49,21 @@ class InitialActivity : AppCompatActivity() {
     private fun getStamp(): Long {
         val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         return sp.getLong(STATE_STAMP, PREFERENCE_INIT)
+    }
+
+    private fun fetchAnkiCardFromLambda() {
+        val getTask = DailyCardsTask()
+        getTask.setOnFinishListener(object: DailyCardsTask.OnFinishListener {
+            override fun onFinish(cardList: List<AnkiCard>) {
+                startMainActivity()
+            }
+        })
+        getTask.execute()
+    }
+
+    private fun startMainActivity() {
+        setStamp(stamp)
+        startActivity(MainActivity.intent(this@InitialActivity))
     }
 
     companion object {
