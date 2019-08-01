@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import io.github.yunato.myankicard.R
 import io.github.yunato.myankicard.model.entity.AnkiCard
-import io.github.yunato.myankicard.other.aws.DailyCardsTask
 import io.github.yunato.myankicard.other.timer.MyCountDownTimer
 import io.github.yunato.myankicard.ui.adapter.QAViewPagerAdapter
 import kotlinx.android.synthetic.main.fragment_qa.*
@@ -55,13 +54,7 @@ class QAFragment : Fragment() {
     private var mistake_num: Int = 0
 
     fun fetchAnkiCardFromLambda() {
-        val getTask = DailyCardsTask()
-        getTask.setOnFinishListener(object: DailyCardsTask.OnFinishListener {
-            override fun onFinish(cardList: List<AnkiCard>) {
-                mCardList = cardList
-            }
-        })
-        getTask.execute()
+        // TODO Access DB
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
