@@ -26,11 +26,11 @@ class InitialActivity : AppCompatActivity() {
         super.onResume()
 
         stamp = getTodayStamp()
-        if(getStamp() != stamp) {
+        if(getStamp() <= stamp) {
             // TODO Check Interrupt
             postResultCardToLambda()
         } else {
-            postResultCardToLambda()
+            startMainActivity()
         }
     }
 
