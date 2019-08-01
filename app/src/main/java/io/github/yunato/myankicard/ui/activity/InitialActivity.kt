@@ -8,6 +8,7 @@ import io.github.yunato.myankicard.R
 import io.github.yunato.myankicard.model.entity.AnkiCard
 import io.github.yunato.myankicard.other.application.App
 import io.github.yunato.myankicard.other.aws.DailyCardsTask
+import io.github.yunato.myankicard.other.aws.PostResultTask
 import java.util.*
 import kotlin.concurrent.thread
 
@@ -27,9 +28,9 @@ class InitialActivity : AppCompatActivity() {
         stamp = getTodayStamp()
         if(getStamp() != stamp) {
             // TODO Check Interrupt
-            fetchAnkiCardFromLambda()
+            postResultCardToLambda()
         } else {
-            startMainActivity()
+            postResultCardToLambda()
         }
     }
 
@@ -51,6 +52,16 @@ class InitialActivity : AppCompatActivity() {
     private fun getStamp(): Long {
         val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         return sp.getLong(STATE_STAMP, PREFERENCE_INIT)
+    }
+
+    private fun postResultCardToLambda() {
+        val postTask = PostResultTask()
+        postTask.setOnFinishListener(object: PostResultTask.OnFinishListener {
+            override fun onFinish() {
+                fetchAnkiCardFromLambda()
+            }
+        })
+        postTask.execute()
     }
 
     private fun fetchAnkiCardFromLambda() {

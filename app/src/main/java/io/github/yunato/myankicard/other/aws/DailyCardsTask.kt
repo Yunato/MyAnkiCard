@@ -23,7 +23,7 @@ class DailyCardsTask : AsyncTask<Unit, Unit, String?>() {
     private lateinit var request: InvokeRequest
 
     override fun onPreExecute() {
-        credential = BasicAWSCredentials(ACCESS_KEY, SECRET_KEY)
+        credential = BasicAWSCredentials(Credential.ACCESS_KEY, Credential.SECRET_KEY)
         lambda = AWSLambdaClient(credential)
         lambda.setRegion(Region.getRegion(Regions.AP_NORTHEAST_1))
         request= InvokeRequest()
@@ -54,6 +54,7 @@ class DailyCardsTask : AsyncTask<Unit, Unit, String?>() {
                     val jsonString = subJsonData[index].toString()
                     val item = gson.fromJson(jsonString, AnkiCard::class.java)
                     item.isCorrect = true
+                    item.isDaily = true
                     rtnList.add(item)
                 }
             } catch (e: org.json.JSONException) {
@@ -69,10 +70,5 @@ class DailyCardsTask : AsyncTask<Unit, Unit, String?>() {
 
     interface OnFinishListener {
         fun onFinish(cardList :List<AnkiCard>)
-    }
-
-    companion object {
-        @JvmStatic private val ACCESS_KEY = ""
-        @JvmStatic private val SECRET_KEY = ""
     }
 }

@@ -58,7 +58,9 @@ class QAViewPagerAdapter(private val fragment: Fragment): PagerAdapter() {
         view.answer_text.text = ankiCard.answer
         view.tag = ankiCard
         view.setOnClickListener{
-            qaList[position].is_correct = false
+            if(position < qaList.size) {
+                qaList[position].is_correct = false
+            }
         }
 
         container.addView(view)
