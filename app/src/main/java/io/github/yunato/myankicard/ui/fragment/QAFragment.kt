@@ -1,5 +1,6 @@
 package io.github.yunato.myankicard.ui.fragment
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
@@ -19,6 +20,8 @@ abstract class QAFragment : Fragment() {
     lateinit var mCardList: List<QACard>
 
     val adapter: QAViewPagerAdapter = QAViewPagerAdapter(this)
+
+    private var hasPaused = false
 
     protected var finishListener: OnFinishListener? = null
 
@@ -56,7 +59,6 @@ abstract class QAFragment : Fragment() {
     private var timer: MyCountDownTimer? = null
     protected var pageIndex: Int = 0
     protected var qaIndex: Int = 0
-    protected var mistake_num: Int = 0
 
     fun fetchQACardFromDB() {
         val dao = App.cardDataBase.ankiCardDao()
@@ -82,6 +84,29 @@ abstract class QAFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         adapter.initializeQA(mCardList)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (hasPaused) {
+            AlertDialog.Builder(activity).apply {
+                setMessage(activity?.getText(R.string.dialog_message))
+                setPositiveButton(activity?.getText(R.string.dialog_positive_text)) { _, _ ->
+                    startAutoSwipe()
+                }
+                setNegativeButton(activity?.getText(R.string.dialog_negative_text)) { _, _ ->
+                    activity?.finish()
+                }
+            }.show()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        hasPaused = true
+        timer?.cancel()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

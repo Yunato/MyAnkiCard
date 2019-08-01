@@ -9,7 +9,7 @@ class LearnQAFragment : QAFragment() {
         override fun onProgress(time: Long) {
             if(time == 0L){
                 if (qaIndex == mCardList.size - 1) {
-                    finishListener?.onFinish(mCardList.size, mCardList.size - mistake_num, mistake_num)
+                    finishListener?.onFinish(0, 0, 0)
                 } else {
                     ++qaIndex
                     viewPager.setCurrentItem(++pageIndex, true)
