@@ -1,5 +1,7 @@
 package io.github.yunato.myankicard.ui.activity
 
+import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -51,5 +53,10 @@ class MainActivity : AppCompatActivity() {
     companion object {
         @JvmStatic private val STATE_STAMP: String = "io.github.yunato.myankicard.ui.activity.STATE_STAMP"
         @JvmStatic private val PREFERENCE_INIT: Long = 0
+
+        fun intent(context: Context): Intent =
+            Intent(context, MainActivity::class.java).apply {
+                this.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            }
     }
 }
