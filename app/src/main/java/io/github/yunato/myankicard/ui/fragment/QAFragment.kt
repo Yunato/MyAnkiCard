@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.github.yunato.myankicard.R
-import io.github.yunato.myankicard.model.entity.AnkiCard
+import io.github.yunato.myankicard.model.entity.QACard
 import io.github.yunato.myankicard.other.timer.MyCountDownTimer
 import io.github.yunato.myankicard.ui.adapter.QAViewPagerAdapter
 import kotlinx.android.synthetic.main.fragment_qa.*
@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_qa.view.*
 
 class QAFragment : Fragment() {
 
-    lateinit var mCardList: List<AnkiCard>
+    lateinit var mCardList: List<QACard>
 
     val adapter: QAViewPagerAdapter = QAViewPagerAdapter(this)
 
