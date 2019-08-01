@@ -1,19 +1,23 @@
 package io.github.yunato.myankicard.ui.fragment
 
-import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import io.github.yunato.myankicard.other.timer.MyCountDownTimer
+import kotlinx.android.synthetic.main.fragment_qa.*
 
-import io.github.yunato.myankicard.R
+class LearnQAFragment : QAFragment() {
 
-class LearnQAFragment : Fragment() {
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_learn_qa, container, false)
+    override val progressListenr: MyCountDownTimer.OnProgressListener = object: MyCountDownTimer.OnProgressListener {
+        override fun onProgress(time: Long) {
+            if(time == 0L){
+                if (qaIndex == mCardList.size - 1) {
+                    finishListener?.onFinish(mCardList.size, mCardList.size - mistake_num, mistake_num)
+                } else {
+                    ++qaIndex
+                    viewPager.setCurrentItem(++pageIndex, true)
+                    startAutoSwipe()
+                }
+            }
+        }
     }
-
 
     companion object {
         @JvmStatic
