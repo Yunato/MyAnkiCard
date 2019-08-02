@@ -108,11 +108,11 @@ abstract class QAFragment : Fragment() {
 
     private fun showDialog() {
         AlertDialog.Builder(activity).apply {
-            setMessage(activity?.getText(R.string.dialog_message))
-            setPositiveButton(activity?.getText(R.string.dialog_positive_text)) { _, _ ->
+            setMessage(getText(R.string.dialog_message))
+            setPositiveButton(getText(R.string.dialog_positive_text)) { _, _ ->
                 startAutoSwipe()
             }
-            setNegativeButton(activity?.getText(R.string.dialog_negative_text)) { _, _ ->
+            setNegativeButton(getText(R.string.dialog_negative_text)) { _, _ ->
                 activity?.finish()
             }
         }.show()

@@ -24,32 +24,6 @@ class MainActivity : AppCompatActivity() {
             fragment = MainFragment.newInstance()
             fm.beginTransaction().replace(R.id.fragment_container, fragment).commit()
         }
-
-        if (getPrimaryKeyForInterruption() != -1L){
-            showDialog()
-        }
-    }
-
-    private fun getPrimaryKeyForInterruption(): Long {
-        val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        return sp.getLong(App.PRAM_PRIMARY_KEY, -1L)
-    }
-
-    private fun removePrimaryKeyForInterruption() {
-        val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        sp.edit().remove(App.PRAM_PRIMARY_KEY).apply()
-    }
-
-    private fun showDialog() {
-        AlertDialog.Builder(this).apply {
-            setMessage(getText(R.string.dialog_interruption_message))
-            setPositiveButton(getText(R.string.dialog_interruption_positive_text)) { _, _ ->
-                removePrimaryKeyForInterruption()
-            }
-            setNegativeButton(getText(R.string.dialog_interruption_negative_text)) { _, _ ->
-                removePrimaryKeyForInterruption()
-            }
-        }.show()
     }
 
     companion object {
