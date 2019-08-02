@@ -6,7 +6,7 @@
     <dimen name="btn_text_size">14sp</dimen>
 
     <!--TextView-->
-    <dimen name="text_view_margin">15dp</dimen>
-    <dimen name="text_view_padding">30dp</dimen>
-    <dimen name="text_view_text_size">14sp</dimen>
+    <dimen name="text_view_margin">10dp</dimen>
+    <dimen name="text_view_padding">15dp</dimen>
+    <dimen name="text_view_text_size">24sp</dimen>
 </resources>

@@ -34,6 +34,16 @@ class TestQAFragment : QAFragment() {
         }
     }
 
+    override fun startAutoSwipe(){
+        // TODO Text Length
+        val millisInFuture = 3 * 1000L
+        val interval = 200L
+        timer?.cancel()
+        timer = MyCountDownTimer(millisInFuture, interval)
+        timer?.setOnProgressListener(progressListenr)
+        timer?.start()
+    }
+
     companion object {
         @JvmStatic
         fun newInstance() = TestQAFragment()

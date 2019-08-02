@@ -23,6 +23,8 @@ abstract class QAFragment : Fragment() {
 
     private var hasPaused = false
 
+    protected var isFinished = false
+
     protected var finishListener: OnFinishListener? = null
 
     private var readyListener: OnReadyListener? = null
@@ -56,7 +58,7 @@ abstract class QAFragment : Fragment() {
 
     abstract val progressListenr: MyCountDownTimer.OnProgressListener
 
-    private var timer: MyCountDownTimer? = null
+    protected var timer: MyCountDownTimer? = null
     protected var pageIndex: Int = 0
     protected var qaIndex: Int = 0
 
@@ -120,6 +122,7 @@ abstract class QAFragment : Fragment() {
                 startAutoSwipe()
             }
             setNegativeButton(getText(R.string.dialog_negative_text)) { _, _ ->
+                isFinished = true
                 activity?.finish()
             }
         }.show()
@@ -141,15 +144,7 @@ abstract class QAFragment : Fragment() {
         startAutoSwipe()
     }
 
-    protected fun startAutoSwipe(){
-        // TODO Text Length
-        val millisInFuture = 3 * 1000L
-        val interval = 200L
-        timer?.cancel()
-        timer = MyCountDownTimer(millisInFuture, interval)
-        timer?.setOnProgressListener(progressListenr)
-        timer?.start()
-    }
+    abstract fun startAutoSwipe()
 
     fun setOnReadyListener(listener: OnReadyListener) {
         readyListener = listener

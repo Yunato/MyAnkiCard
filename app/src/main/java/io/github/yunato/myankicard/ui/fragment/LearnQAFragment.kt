@@ -8,8 +8,6 @@ import kotlinx.android.synthetic.main.fragment_qa.*
 
 class LearnQAFragment : QAFragment() {
 
-    private var isFinished = false
-
     override val progressListenr: MyCountDownTimer.OnProgressListener = object: MyCountDownTimer.OnProgressListener {
         override fun onProgress(time: Long) {
             if(time == 0L){
@@ -43,6 +41,16 @@ class LearnQAFragment : QAFragment() {
     private fun removePrimaryKeyForInterruption() {
         val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
         sp.edit().remove(App.PRAM_PRIMARY_KEY).apply()
+    }
+
+    override fun startAutoSwipe(){
+        val textSize = mCardList[qaIndex].question.length + mCardList[qaIndex].answer.length
+        val millisInFuture = ((textSize / 8).toDouble() * 1000L).toLong()
+        val interval = 200L
+        timer?.cancel()
+        timer = MyCountDownTimer(millisInFuture, interval)
+        timer?.setOnProgressListener(progressListenr)
+        timer?.start()
     }
 
     companion object {
