@@ -18,7 +18,7 @@ class FetchFromDBTask : AsyncTask<Unit, Unit, Unit>() {
     }
 
     override fun doInBackground(vararg params: Unit?) {
-        cardList = dao.findAll()
+        cardList = dao.findAllDaily()
     }
 
     override fun onPostExecute(result: Unit?) {

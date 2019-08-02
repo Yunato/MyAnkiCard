@@ -8,6 +8,7 @@ import io.github.yunato.myankicard.model.entity.AnkiCard
 
 @Dao
 interface AnkiCardDao {
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertCard(card: AnkiCard)
 
@@ -19,6 +20,9 @@ interface AnkiCardDao {
 
     @Query("SELECT * FROM AnkiCard")
     fun findAll(): List<AnkiCard>
+
+    @Query("SELECT * FROM AnkiCard WHERE isDaily = :isDaily")
+    fun findAllDaily(isDaily: Boolean = true): List<AnkiCard>
 
     @Query("SELECT COUNT(*) FROM AnkiCard")
     fun getCount(): Long

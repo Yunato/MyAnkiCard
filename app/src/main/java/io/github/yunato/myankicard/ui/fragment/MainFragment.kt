@@ -51,7 +51,6 @@ class MainFragment : Fragment() {
             setMessage(getText(R.string.dialog_interruption_message))
             setPositiveButton(getText(R.string.dialog_interruption_positive_text)) { _, _ ->
                 startActivity(QAActivity.intent(activity as Context, QAActivity.MODE_LEARN))
-                removePrimaryKeyForInterruption()
             }
             setNegativeButton(getText(R.string.dialog_interruption_negative_text)) { _, _ ->
                 removePrimaryKeyForInterruption()
