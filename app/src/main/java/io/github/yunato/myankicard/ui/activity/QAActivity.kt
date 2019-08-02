@@ -2,10 +2,14 @@ package io.github.yunato.myankicard.ui.activity
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.view.KeyEvent
+import android.widget.Toast
 import io.github.yunato.myankicard.R
+import io.github.yunato.myankicard.other.application.App
 import io.github.yunato.myankicard.ui.fragment.*
 
 class QAActivity : AppCompatActivity() {
@@ -44,6 +48,11 @@ class QAActivity : AppCompatActivity() {
             fragment.setOnFinishListener(startListener)
             supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
         }
+
+        override fun onFault() {
+            Toast.makeText(this@QAActivity, getText(R.string.toast_message), Toast.LENGTH_SHORT).show()
+            this@QAActivity.finish()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,8 +72,15 @@ class QAActivity : AppCompatActivity() {
         val fragment = fm.findFragmentById(R.id.fragment_container)
 
         if (fragment == null){
-            qaFragment.fetchQACardFromDB()
+            val stampForFirstList = getPrimaryKeyForInterruption()
+            qaFragment.fetchQACardFromDB(stampForFirstList)
         }
+    }
+
+    private fun getPrimaryKeyForInterruption(): Long {
+        if (MODE_LEARN != mode) return -1L
+        val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        return sp.getLong(App.PRAM_PRIMARY_KEY, -1L)
     }
 
     override fun dispatchKeyEvent(event: KeyEvent?): Boolean {

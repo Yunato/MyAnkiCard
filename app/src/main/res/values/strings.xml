@@ -18,6 +18,9 @@
     <string name="mistake_num_text">誤答数 :</string>
     <string name="return_button_text">メニューへ</string>
 
+    <!--QAFragment-->
+    <string name="toast_message">使用するデータセットがありません</string>
+
     <!--TestQAFragment-->
     <string name="dialog_message">テストが中断されました．このまま続けますか？</string>
     <string name="dialog_positive_text">続ける</string>

@@ -1,14 +1,10 @@
 package io.github.yunato.myankicard.ui.activity
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import io.github.yunato.myankicard.R
-import io.github.yunato.myankicard.other.application.App
 import io.github.yunato.myankicard.ui.fragment.MainFragment
 
 class MainActivity : AppCompatActivity() {

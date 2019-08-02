@@ -58,7 +58,6 @@ class MainFragment : Fragment() {
         }.show()
     }
 
-
     companion object {
         @JvmStatic
         fun newInstance() = MainFragment()
