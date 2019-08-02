@@ -5,6 +5,9 @@
     <string name="daily_button_text">Daily</string>
     <string name="daily_test_button_text">Daily Test</string>
     <string name="random_button_text">Random</string>
+    <string name="dialog_interruption_message">前回の学習が中断されています．再開しますか？</string>
+    <string name="dialog_interruption_positive_text">再開する</string>
+    <string name="dialog_interruption_negative_text">しない</string>
 
     <!--StartFragment-->
     <string name="start_text">Start</string>

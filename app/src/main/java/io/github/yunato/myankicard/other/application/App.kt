@@ -16,6 +16,7 @@ class App : Application() {
 
     companion object {
         @JvmStatic private val CARD_DB_NAME = "CardDataBase.db"
+        @JvmStatic val PRAM_PRIMARY_KEY = "io.github.yunato.myankicard.other.application.PRAM_PRIMARY_KEY"
 
         lateinit var cardDataBase: CardDataBase
     }

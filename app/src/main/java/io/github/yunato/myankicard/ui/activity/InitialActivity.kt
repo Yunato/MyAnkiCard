@@ -26,8 +26,8 @@ class InitialActivity : AppCompatActivity() {
         super.onResume()
 
         stamp = getTodayStamp()
-        if(getStamp() <= stamp) {
-            // TODO Check Interrupt
+        if(getStamp() < stamp) {
+            removePrimaryKeyForInterruption()
             postResultCardToLambda()
         } else {
             startMainActivity()
@@ -52,6 +52,11 @@ class InitialActivity : AppCompatActivity() {
     private fun getStamp(): Long {
         val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         return sp.getLong(STATE_STAMP, PREFERENCE_INIT)
+    }
+
+    private fun removePrimaryKeyForInterruption() {
+        val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        sp.edit().remove(App.PRAM_PRIMARY_KEY).apply()
     }
 
     private fun postResultCardToLambda() {
