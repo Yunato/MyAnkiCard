@@ -8,10 +8,13 @@ import kotlinx.android.synthetic.main.fragment_qa.*
 
 class LearnQAFragment : QAFragment() {
 
+    private var isFinished = false
+
     override val progressListenr: MyCountDownTimer.OnProgressListener = object: MyCountDownTimer.OnProgressListener {
         override fun onProgress(time: Long) {
             if(time == 0L){
-                if (qaIndex == mCardList.size - 1) {
+                if (qaIndex >= mCardList.size - 1) {
+                    isFinished = true
                     finishListener?.onFinish(0, 0, 0)
                 } else {
                     ++qaIndex
@@ -29,7 +32,7 @@ class LearnQAFragment : QAFragment() {
 
     override fun onPause() {
         super.onPause()
-        setPrimaryKeyForInterruption()
+        if (!isFinished) setPrimaryKeyForInterruption()
     }
 
     private fun setPrimaryKeyForInterruption() {
