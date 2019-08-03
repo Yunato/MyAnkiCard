@@ -54,8 +54,13 @@ class TestQAFragment : QAFragment() {
     }
 
     override fun startAutoSwipe(){
-        // TODO Text Length
-        val millisInFuture = 3 * 1000L
+        val millisInFuture = if (isThinking) {
+            val textSize = mCardList[qaIndex].question.length + mCardList[qaIndex].answer.length
+            ((textSize / 15).toDouble() * 1000L).toLong()
+        } else {
+            val textSize = mCardList[qaIndex].answer.length
+            ((textSize / 10).toDouble() * 1000L).toLong()
+        }
         val interval = 200L
         timer?.cancel()
         timer = MyCountDownTimer(millisInFuture, interval)
