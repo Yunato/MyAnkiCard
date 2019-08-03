@@ -19,7 +19,7 @@ abstract class QAFragment : Fragment() {
 
     lateinit var mCardList: List<QACard>
 
-    val adapter: QAViewPagerAdapter = QAViewPagerAdapter(this)
+    abstract val adapter: QAViewPagerAdapter
 
     private var hasPaused = false
 

@@ -9,7 +9,7 @@ import io.github.yunato.myankicard.R
 import io.github.yunato.myankicard.model.entity.QACard
 import kotlinx.android.synthetic.main.view_holder_qa.view.*
 
-class QAViewPagerAdapter(private val fragment: Fragment): PagerAdapter() {
+class QAViewPagerAdapter(private val fragment: Fragment, private val isLearn: Boolean): PagerAdapter() {
 
     private var qaList = listOf<QACard>().toMutableList()
     private var elementNum = 0
@@ -56,12 +56,14 @@ class QAViewPagerAdapter(private val fragment: Fragment): PagerAdapter() {
         }
         view.question_text.text = ankiCard.question
         view.answer_text.text = ankiCard.answer
-        view.tag = ankiCard
+        view.answer_text.tag = ankiCard
         view.setOnClickListener{
             if(position < qaList.size) {
                 qaList[position].is_correct = false
             }
         }
+
+        view.answer_text.visibility = if (isLearn) View.VISIBLE else View.INVISIBLE
 
         container.addView(view)
 

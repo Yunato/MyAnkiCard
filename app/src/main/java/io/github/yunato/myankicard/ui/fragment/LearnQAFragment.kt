@@ -4,9 +4,12 @@ import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import io.github.yunato.myankicard.other.application.App
 import io.github.yunato.myankicard.other.timer.MyCountDownTimer
+import io.github.yunato.myankicard.ui.adapter.QAViewPagerAdapter
 import kotlinx.android.synthetic.main.fragment_qa.*
 
 class LearnQAFragment : QAFragment() {
+
+    override val adapter: QAViewPagerAdapter = QAViewPagerAdapter(this, true)
 
     override val progressListenr: MyCountDownTimer.OnProgressListener = object: MyCountDownTimer.OnProgressListener {
         override fun onProgress(time: Long) {
