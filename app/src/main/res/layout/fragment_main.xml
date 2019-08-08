@@ -15,9 +15,9 @@
             android:padding="@dimen/btn_padding"
 
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/daily_test_button"
+            app:layout_constraintBottom_toTopOf="@id/random_test_button"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/daily_test_button"
 
             android:text="@string/daily_button_text"
             android:textSize="@dimen/btn_text_size"/>
@@ -29,9 +29,9 @@
             android:layout_margin="@dimen/btn_margin"
             android:padding="@dimen/btn_padding"
 
-            app:layout_constraintTop_toBottomOf="@id/daily_learn_button"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/random_test_button"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/daily_learn_button"
             app:layout_constraintEnd_toEndOf="parent"
 
             android:text="@string/daily_test_button_text"
@@ -45,11 +45,41 @@
             android:padding="@dimen/btn_padding"
 
             app:layout_constraintTop_toBottomOf="@id/daily_test_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/mistake_test_button"
+            app:layout_constraintStart_toEndOf="@id/daily_learn_button"
             app:layout_constraintEnd_toEndOf="parent"
 
-            android:text="@string/random_button_text"
+            android:text="@string/daily_test_button_text"
+            android:textSize="@dimen/btn_text_size"/>
+
+    <Button
+            android:id="@+id/mistake_learn_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/btn_margin"
+            android:padding="@dimen/btn_padding"
+
+            app:layout_constraintTop_toBottomOf="@id/random_test_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/mistake_test_button"
+
+            android:text="@string/mistake_learn_button_text"
+            android:textSize="@dimen/btn_text_size"/>
+
+    <Button
+            android:id="@+id/mistake_test_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/btn_margin"
+            android:padding="@dimen/btn_padding"
+
+            app:layout_constraintTop_toBottomOf="@id/random_test_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/mistake_learn_button"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:text="@string/mistake_test_button_text"
             android:textSize="@dimen/btn_text_size"/>
 
 </android.support.constraint.ConstraintLayout>
