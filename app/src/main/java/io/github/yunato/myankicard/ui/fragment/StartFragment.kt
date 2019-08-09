@@ -7,11 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import io.github.yunato.myankicard.R
 import io.github.yunato.myankicard.other.timer.MyCountDownTimer
+import io.github.yunato.myankicard.ui.activity.QAActivity
 import kotlinx.android.synthetic.main.fragment_start.*
 
-class StartFragment() : Fragment() {
-
-    private var mListener: OnFinishListener? = null
+class StartFragment : Fragment() {
 
     private var timer: MyCountDownTimer? = null
 
@@ -21,7 +20,6 @@ class StartFragment() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         startCountDown()
     }
 
@@ -33,7 +31,7 @@ class StartFragment() : Fragment() {
         timer?.setOnProgressListener(object: MyCountDownTimer.OnProgressListener {
             override fun onProgress(time: Long) {
                 when {
-                    time == 0L -> mListener?.onFinish()
+                    time == 0L -> (this@StartFragment.activity as QAActivity).switchFragment()
                     time < 1000L -> timerText.setText(R.string.start_text)
                     else -> timerText.text = ((time / 1000).toInt()).toString()
                 }
@@ -42,16 +40,7 @@ class StartFragment() : Fragment() {
         timer?.start()
     }
 
-    fun setOnFinishListener(listener: OnFinishListener){
-        mListener = listener
-    }
-
-    interface OnFinishListener {
-        fun onFinish()
-    }
-
     companion object {
-        @JvmStatic
         fun newInstance() = StartFragment()
     }
 }

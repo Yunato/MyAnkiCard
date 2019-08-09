@@ -3,6 +3,7 @@ package io.github.yunato.myankicard.other.application
 import android.app.Application
 import android.arch.persistence.room.Room
 import io.github.yunato.myankicard.model.database.CardDataBase
+import io.github.yunato.myankicard.other.preference.Preference
 
 class App : Application() {
 
@@ -12,12 +13,13 @@ class App : Application() {
         super.onCreate()
 
         cardDataBase = Room.databaseBuilder(this, objectOf<CardDataBase>(), CARD_DB_NAME).build()
+        preference = Preference(this)
     }
 
     companion object {
         @JvmStatic private val CARD_DB_NAME = "CardDataBase.db"
-        @JvmStatic val PRAM_PRIMARY_KEY = "io.github.yunato.myankicard.other.application.PRAM_PRIMARY_KEY"
 
         lateinit var cardDataBase: CardDataBase
+        lateinit var preference: Preference
     }
 }

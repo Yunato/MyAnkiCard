@@ -2,9 +2,7 @@ package io.github.yunato.myankicard.ui.fragment
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -24,36 +22,26 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         daily_learn_button.setOnClickListener {
-            startActivity(QAActivity.intent(activity as Context, QAActivity.MODE_LEARN))
+            startActivity(QAActivity.intent(activity as Context, QAActivity.MODE_LEARN_DAILY))
         }
 
         daily_test_button.setOnClickListener {
             startActivity(QAActivity.intent(activity as Context, QAActivity.MODE_TEST_DAILY))
         }
 
-        if (getPrimaryKeyForInterruption() != -1L){
+        if (App.preference.primaryKey != -1L){
             showDialog()
         }
-    }
-
-    private fun getPrimaryKeyForInterruption(): Long {
-        val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
-        return sp.getLong(App.PRAM_PRIMARY_KEY, -1L)
-    }
-
-    private fun removePrimaryKeyForInterruption() {
-        val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
-        sp.edit().remove(App.PRAM_PRIMARY_KEY).apply()
     }
 
     private fun showDialog() {
         AlertDialog.Builder(activity).apply {
             setMessage(getText(R.string.dialog_interruption_message))
             setPositiveButton(getText(R.string.dialog_interruption_positive_text)) { _, _ ->
-                startActivity(QAActivity.intent(activity as Context, QAActivity.MODE_LEARN))
+                startActivity(QAActivity.intent(activity as Context, QAActivity.MODE_LEARN_DAILY))
             }
             setNegativeButton(getText(R.string.dialog_interruption_negative_text)) { _, _ ->
-                removePrimaryKeyForInterruption()
+                App.preference.removePrimaryKey()
             }
         }.show()
     }

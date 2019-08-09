@@ -6,11 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.github.yunato.myankicard.R
+import io.github.yunato.myankicard.ui.activity.QAActivity
 import kotlinx.android.synthetic.main.fragment_end.*
 
 class EndFragment : Fragment() {
 
-    private var mListener: OnFinishListener? = null
     private var questNum = 0
     private var correctNum = 0
     private var mistakeNum = 0
@@ -35,16 +35,8 @@ class EndFragment : Fragment() {
         correct_num_text.text = String.format("%s%s", activity?.getText(R.string.correct_num_text), correctNum.toString())
         mistake_num_text.text = String.format("%s%s", activity?.getText(R.string.mistake_num_text), mistakeNum.toString())
         return_button.setOnClickListener{
-            mListener?.onFinish()
+            (activity as QAActivity).switchFragment()
         }
-    }
-
-    fun setOnFinishListener(listener: OnFinishListener){
-        mListener = listener
-    }
-
-    interface OnFinishListener {
-        fun onFinish()
     }
 
     companion object {
@@ -52,7 +44,6 @@ class EndFragment : Fragment() {
         @JvmStatic private val ARG_CORRECT = "io.github.yunato.myankicard.ui.fragment.ARG_CORRECT"
         @JvmStatic private val ARG_MISTAKE = "io.github.yunato.myankicard.ui.fragment.ARG_MISTAKE"
 
-        @JvmStatic
         fun newInstance(quest_num: Int, correct_num: Int, mistake_num: Int): EndFragment{
             return EndFragment().apply {
                 arguments = Bundle().apply {

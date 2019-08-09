@@ -1,8 +1,6 @@
 package io.github.yunato.myankicard.ui.activity
 
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.google.gson.Gson
@@ -33,11 +31,12 @@ class InitialActivity : AppCompatActivity(), CoroutineScope {
         super.onResume()
 
         stamp = getTodayStamp()
-        if(getStamp() < stamp) {
-            removePrimaryKeyForInterruption()
+        if(App.preference.stamp < stamp) {
+            App.preference.removePrimaryKey()
             launch {
                 postResultCardToLambda()
                 fetchAnkiCardFromLambda()
+                App.preference.stamp = stamp
                 startMainActivity()
             }
         } else {
@@ -52,27 +51,9 @@ class InitialActivity : AppCompatActivity(), CoroutineScope {
 
     private fun getTodayStamp(): Long {
         return Calendar.getInstance().run {
-            set(Calendar.HOUR, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
+            set(get(Calendar.YEAR), get(Calendar.MONTH), get(Calendar.DAY_OF_MONTH), 0, 0, 0)
             timeInMillis / 1000
         }
-    }
-
-    private fun setStamp(stamp: Long) {
-        val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        sp.edit().putLong(STATE_STAMP, stamp).apply()
-    }
-
-    private fun getStamp(): Long {
-        val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        return sp.getLong(STATE_STAMP, PREFERENCE_INIT)
-    }
-
-    private fun removePrimaryKeyForInterruption() {
-        val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        sp.edit().remove(App.PRAM_PRIMARY_KEY).apply()
     }
 
     private suspend fun postResultCardToLambda() = withContext(context = Dispatchers.IO) {
@@ -107,13 +88,5 @@ class InitialActivity : AppCompatActivity(), CoroutineScope {
         }
     }
 
-    private fun startMainActivity() {
-        setStamp(stamp)
-        startActivity(MainActivity.intent(this@InitialActivity))
-    }
-
-    companion object {
-        @JvmStatic private val STATE_STAMP: String = "io.github.yunato.myankicard.ui.activity.STATE_STAMP"
-        @JvmStatic private val PREFERENCE_INIT: Long = 0
-    }
+    private fun startMainActivity() = startActivity(MainActivity.intent(this@InitialActivity))
 }

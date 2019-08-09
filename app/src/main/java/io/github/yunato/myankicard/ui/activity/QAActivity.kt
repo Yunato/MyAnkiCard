@@ -2,10 +2,9 @@ package io.github.yunato.myankicard.ui.activity
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.KeyEvent
 import android.widget.Toast
 import io.github.yunato.myankicard.R
@@ -17,48 +16,25 @@ import kotlin.coroutines.CoroutineContext
 class QAActivity : AppCompatActivity(), CoroutineScope {
 
     private val job = Job()
-    private var mode: Int = MODE_LEARN
     private var phase: Int = PHASE_START
+    private var startPos: Long = -1L
     private lateinit var qaFragment: QAFragment
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
 
-    private val startListener: StartFragment.OnFinishListener = object: StartFragment.OnFinishListener {
-        override fun onFinish() {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, qaFragment).commit()
-            phase = PHASE_QA
-        }
-    }
-
-    private val qaListener: QAFragment.OnFinishListener = object: QAFragment.OnFinishListener {
-        override fun onFinish(quest_num: Int, correct_num: Int, mistake_num: Int) {
-            val fragment = EndFragment.newInstance(quest_num, correct_num, mistake_num)
-            fragment.setOnFinishListener(endListener)
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment).commit()
-            phase = PHASE_END
-        }
-    }
-
-    private val endListener: EndFragment.OnFinishListener = object: EndFragment.OnFinishListener {
-        override fun onFinish() {
-            finish()
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qa)
 
-        mode = intent.getIntExtra(MODE_EXTRA, MODE_LEARN)
-        qaFragment = when (mode) {
-            MODE_LEARN -> LearnQAFragment.newInstance()
+        qaFragment = when (intent.getIntExtra(MODE_EXTRA, MODE_LEARN_DAILY)) {
+            MODE_LEARN_DAILY -> {
+                startPos = App.preference.primaryKey
+                LearnQAFragment.newInstance()
+            }
             MODE_TEST_DAILY -> TestQAFragment.newInstance()
             else -> throw IllegalStateException("State is not correct")
         }
-        qaFragment.setOnFinishListener(qaListener)
     }
 
     override fun onResume() {
@@ -66,36 +42,49 @@ class QAActivity : AppCompatActivity(), CoroutineScope {
 
         val fm = supportFragmentManager
         val fragment = fm.findFragmentById(R.id.fragment_container)
+        if (fragment != null) return
 
-        if (fragment == null){
-            val stampForFirstList = getPrimaryKeyForInterruption()
-            launch {
-                val isSuccess = withContext(context = Dispatchers.IO) {
-                    qaFragment.fetchQACardFromDB(stampForFirstList)
-                }
-                if (isSuccess) {
-                    val firstFragment = StartFragment.newInstance()
-                    firstFragment.setOnFinishListener(startListener)
-                    supportFragmentManager.beginTransaction().replace(R.id.fragment_container, firstFragment).commit()
-                } else {
-                    Toast.makeText(this@QAActivity, getText(R.string.toast_message), Toast.LENGTH_SHORT).show()
-                    this@QAActivity.finish()
-                }
+        launch {
+            val isSuccess = withContext(context = Dispatchers.IO) {
+                qaFragment.fetchQACardFromDB(startPos)
+            }
+            if (isSuccess) {
+                fm.beginTransaction().replace(R.id.fragment_container, StartFragment.newInstance()).commit()
+            } else {
+                Toast.makeText(this@QAActivity, getText(R.string.toast_message), Toast.LENGTH_SHORT).show()
+                this@QAActivity.finish()
             }
         }
     }
 
-    private fun getPrimaryKeyForInterruption(): Long {
-        if (MODE_LEARN != mode) return -1L
-        val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        return sp.getLong(App.PRAM_PRIMARY_KEY, -1L)
+    override fun onDestroy() {
+        job.cancel()
+        super.onDestroy()
+    }
+
+    fun switchFragment(vararg values: Int) {
+        val fm = supportFragmentManager
+        when (phase) {
+            PHASE_START -> {
+                fm.beginTransaction().replace(R.id.fragment_container, qaFragment).commit()
+                phase = PHASE_QA
+            }
+            PHASE_QA -> {
+                try {
+                    val fragment = EndFragment.newInstance(values[0], values[1], values[2])
+                    supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
+                    phase = PHASE_END
+                } catch (e: IndexOutOfBoundsException) {
+                    Log.e("Error", e.toString())
+                }
+            }
+            PHASE_END -> finish()
+        }
     }
 
     override fun dispatchKeyEvent(event: KeyEvent?): Boolean {
         if (event?.keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
-            if (PHASE_QA == phase) {
-                qaFragment.onPressBackKey()
-            }
+            if (PHASE_QA == phase) qaFragment.onPressBackKey()
             return true
         }
         return super.dispatchKeyEvent(event)
@@ -103,7 +92,7 @@ class QAActivity : AppCompatActivity(), CoroutineScope {
 
     companion object{
         @JvmStatic private val MODE_EXTRA = "io.github.yunato.myankicard.ui.activity.STATE_MODE"
-        @JvmStatic val MODE_LEARN = 0
+        @JvmStatic val MODE_LEARN_DAILY = 0
         @JvmStatic val MODE_TEST_DAILY = 1
         @JvmStatic val MODE_TEST_RANDOM = 2
 

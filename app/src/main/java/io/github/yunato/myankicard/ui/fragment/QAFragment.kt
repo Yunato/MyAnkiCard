@@ -16,15 +16,13 @@ import kotlinx.android.synthetic.main.fragment_qa.view.*
 
 abstract class QAFragment : Fragment() {
 
-    lateinit var mCardList: List<QACard>
-
+    abstract val progressListener: MyCountDownTimer.OnProgressListener
     abstract val adapter: QAViewPagerAdapter
 
+    lateinit var mCardList: List<QACard>
+
     private var hasPaused = false
-
-    protected var isFinished = false
-
-    protected var finishListener: OnFinishListener? = null
+    protected var isEnded = false
 
     private val viewPagerListener: ViewPager.OnPageChangeListener = object: ViewPager.OnPageChangeListener {
 
@@ -53,8 +51,6 @@ abstract class QAFragment : Fragment() {
         }
     }
 
-    abstract val progressListenr: MyCountDownTimer.OnProgressListener
-
     protected var timer: MyCountDownTimer? = null
     protected var pageIndex: Int = 0
     protected var qaIndex: Int = 0
@@ -73,21 +69,31 @@ abstract class QAFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         adapter.initializeQA(mCardList)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_qa, container, false)
+
+        view.viewPager.addOnPageChangeListener(viewPagerListener)
+        view.viewPager.adapter = adapter
+        view.viewPager.setCurrentItem(pageIndex, false)
+
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        startAutoSwipe()
     }
 
     override fun onResume() {
         super.onResume()
-
-        if (hasPaused) {
-            showDialog()
-        }
+        if (hasPaused) showDialog()
     }
 
     override fun onPause() {
         super.onPause()
-
         hasPaused = true
         timer?.cancel()
     }
@@ -104,35 +110,11 @@ abstract class QAFragment : Fragment() {
                 startAutoSwipe()
             }
             setNegativeButton(getText(R.string.dialog_negative_text)) { _, _ ->
-                isFinished = true
+                isEnded = true
                 activity?.finish()
             }
         }.show()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_qa, container, false)
-
-        view.viewPager.addOnPageChangeListener(viewPagerListener)
-        view.viewPager.adapter = adapter
-        view.viewPager.setCurrentItem(pageIndex, false)
-
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        startAutoSwipe()
-    }
-
     abstract fun startAutoSwipe()
-
-    fun setOnFinishListener(listener: OnFinishListener) {
-        finishListener = listener
-    }
-
-    interface OnFinishListener {
-        fun onFinish(quest_num: Int, correct_num: Int, mistake_num: Int)
-    }
 }
