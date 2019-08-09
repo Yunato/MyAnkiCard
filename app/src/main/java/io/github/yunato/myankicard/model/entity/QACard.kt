@@ -5,4 +5,7 @@ data class QACard(val timestamp: Long,
                   val answer: String,
                   val next_date: Long,
                   val consecutive: Long,
-                  var is_correct: Boolean)
+                  var is_correct: Boolean) {
+
+    constructor(card: AnkiCard): this(card.timestamp, card.question, card.answer, card.nextDate, card.consecutive, true)
+}

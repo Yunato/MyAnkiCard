@@ -8,9 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.github.yunato.myankicard.R
-import io.github.yunato.myankicard.model.entity.AnkiCard
 import io.github.yunato.myankicard.model.entity.QACard
-import io.github.yunato.myankicard.other.task.FetchFromDBTask
+import io.github.yunato.myankicard.other.application.App
 import io.github.yunato.myankicard.other.timer.MyCountDownTimer
 import io.github.yunato.myankicard.ui.adapter.QAViewPagerAdapter
 import kotlinx.android.synthetic.main.fragment_qa.view.*
@@ -26,8 +25,6 @@ abstract class QAFragment : Fragment() {
     protected var isFinished = false
 
     protected var finishListener: OnFinishListener? = null
-
-    private var readyListener: OnReadyListener? = null
 
     private val viewPagerListener: ViewPager.OnPageChangeListener = object: ViewPager.OnPageChangeListener {
 
@@ -62,31 +59,16 @@ abstract class QAFragment : Fragment() {
     protected var pageIndex: Int = 0
     protected var qaIndex: Int = 0
 
-    fun fetchQACardFromDB(stampForFirst: Long) {
-        val fetchTask = FetchFromDBTask()
-        fetchTask.setOnFinishListener(object: FetchFromDBTask.OnFinishListener {
-            override fun onFinish(cardList: List<AnkiCard>) {
-                val qaCards = mutableListOf<QACard>()
-                for (card in cardList) {
-                    if(card.timestamp == stampForFirst) qaCards.clear()
-                    qaCards.add(QACard(
-                        card.timestamp,
-                        card.question,
-                        card.answer,
-                        card.nextDate,
-                        card.consecutive,
-                        true
-                    ))
-                }
-                mCardList = qaCards
-                if(mCardList.isEmpty()) {
-                    readyListener?.onFault()
-                } else {
-                    readyListener?.onReady()
-                }
-            }
-        })
-        fetchTask.execute()
+    fun fetchQACardFromDB(stampForFirst: Long): Boolean {
+        val dao = App.cardDataBase.ankiCardDao()
+        val cardList = dao.findAllDaily()
+        val qaCards = mutableListOf<QACard>()
+        for (card in cardList) {
+            if (card.timestamp == stampForFirst) qaCards.clear()
+            qaCards.add(QACard(card))
+        }
+        mCardList = qaCards
+        return mCardList.isNotEmpty()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -146,17 +128,8 @@ abstract class QAFragment : Fragment() {
 
     abstract fun startAutoSwipe()
 
-    fun setOnReadyListener(listener: OnReadyListener) {
-        readyListener = listener
-    }
-
     fun setOnFinishListener(listener: OnFinishListener) {
         finishListener = listener
-    }
-
-    interface OnReadyListener {
-        fun onReady()
-        fun onFault()
     }
 
     interface OnFinishListener {

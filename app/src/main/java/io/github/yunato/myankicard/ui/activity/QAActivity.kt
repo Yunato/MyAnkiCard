@@ -11,12 +11,18 @@ import android.widget.Toast
 import io.github.yunato.myankicard.R
 import io.github.yunato.myankicard.other.application.App
 import io.github.yunato.myankicard.ui.fragment.*
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
-class QAActivity : AppCompatActivity() {
+class QAActivity : AppCompatActivity(), CoroutineScope {
 
+    private val job = Job()
     private var mode: Int = MODE_LEARN
     private var phase: Int = PHASE_START
     private lateinit var qaFragment: QAFragment
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main
 
     private val startListener: StartFragment.OnFinishListener = object: StartFragment.OnFinishListener {
         override fun onFinish() {
@@ -42,19 +48,6 @@ class QAActivity : AppCompatActivity() {
         }
     }
 
-    private val qaReadyListener: QAFragment.OnReadyListener = object: QAFragment.OnReadyListener {
-        override fun onReady() {
-            val fragment = StartFragment.newInstance()
-            fragment.setOnFinishListener(startListener)
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
-        }
-
-        override fun onFault() {
-            Toast.makeText(this@QAActivity, getText(R.string.toast_message), Toast.LENGTH_SHORT).show()
-            this@QAActivity.finish()
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qa)
@@ -65,15 +58,30 @@ class QAActivity : AppCompatActivity() {
             MODE_TEST_DAILY -> TestQAFragment.newInstance()
             else -> throw IllegalStateException("State is not correct")
         }
-        qaFragment.setOnReadyListener(qaReadyListener)
         qaFragment.setOnFinishListener(qaListener)
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         val fm = supportFragmentManager
         val fragment = fm.findFragmentById(R.id.fragment_container)
 
         if (fragment == null){
             val stampForFirstList = getPrimaryKeyForInterruption()
-            qaFragment.fetchQACardFromDB(stampForFirstList)
+            launch {
+                val isSuccess = withContext(context = Dispatchers.IO) {
+                    qaFragment.fetchQACardFromDB(stampForFirstList)
+                }
+                if (isSuccess) {
+                    val firstFragment = StartFragment.newInstance()
+                    firstFragment.setOnFinishListener(startListener)
+                    supportFragmentManager.beginTransaction().replace(R.id.fragment_container, firstFragment).commit()
+                } else {
+                    Toast.makeText(this@QAActivity, getText(R.string.toast_message), Toast.LENGTH_SHORT).show()
+                    this@QAActivity.finish()
+                }
+            }
         }
     }
 
