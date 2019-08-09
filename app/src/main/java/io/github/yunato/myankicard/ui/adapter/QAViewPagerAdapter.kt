@@ -56,14 +56,14 @@ class QAViewPagerAdapter(private val fragment: Fragment, private val isLearn: Bo
         }
         view.question_text.text = ankiCard.question
         view.answer_text.text = ankiCard.answer
-        view.answer_text.tag = ankiCard
+        view.answer_card.tag = ankiCard
         view.setOnClickListener{
             if(position < qaList.size) {
                 qaList[position].is_correct = false
             }
         }
 
-        view.answer_text.visibility = if (isLearn) View.VISIBLE else View.INVISIBLE
+        view.answer_card.visibility = if (isLearn) View.VISIBLE else View.INVISIBLE
 
         container.addView(view)
 

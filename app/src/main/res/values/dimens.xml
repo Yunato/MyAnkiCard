@@ -6,8 +6,8 @@
     <dimen name="btn_text_size">14sp</dimen>
 
     <!--TextView-->
-    <dimen name="text_view_margin">10dp</dimen>
-    <dimen name="text_view_padding">15dp</dimen>
+    <dimen name="text_view_margin">5dp</dimen>
+    <dimen name="text_view_padding">10dp</dimen>
     <dimen name="text_view_text_size">24sp</dimen>
 
     <dimen name="text_view_count_down_text_size">96sp</dimen>
@@ -15,4 +15,8 @@
     <!--Space-->
     <dimen name="space_margin">10dp</dimen>
     <dimen name="space_padding">15dp</dimen>
+
+    <!--CardView-->
+    <dimen name="card_margin">10dp</dimen>
+    <dimen name="card_padding">0dp</dimen>
 </resources>

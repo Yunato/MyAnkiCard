@@ -1,9 +1,12 @@
 package io.github.yunato.myankicard.ui.fragment
 
 
+import android.content.Context
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.CardView
 import android.view.View
-import android.widget.TextView
+import io.github.yunato.myankicard.R
 import io.github.yunato.myankicard.other.application.App
 import io.github.yunato.myankicard.other.timer.MyCountDownTimer
 import io.github.yunato.myankicard.ui.activity.QAActivity
@@ -33,10 +36,15 @@ class TestQAFragment : QAFragment(), CoroutineScope {
 
     override val progressListener: MyCountDownTimer.OnProgressListener = object: MyCountDownTimer.OnProgressListener{
         override fun onProgress(time: Long) {
-            if(time != 0L) return
+            if(time != 0L) {
+                val view = viewPager.findViewWithTag<CardView>(mCardList[qaIndex])
+                val isCorrect = (viewPager.adapter as QAViewPagerAdapter).getAnsCorrect(pageIndex)
+                if (!isCorrect) view.setCardBackgroundColor(ContextCompat.getColor(activity as Context, R.color.colorWeakAccent))
+                return
+            }
 
             if (isThinking) {
-                val view = viewPager.findViewWithTag<TextView>(mCardList[qaIndex])
+                val view = viewPager.findViewWithTag<CardView>(mCardList[qaIndex])
                 view.visibility = View.VISIBLE
                 isThinking = false
             } else {
