@@ -60,7 +60,7 @@ class InitialActivity : AppCompatActivity(), CoroutineScope {
         val dao = App.cardDataBase.ankiCardDao()
         val postResults = mutableListOf<PostResult>()
         for (card in dao.findAll()) {
-            postResults.add(PostResult(card))
+            if (card.timestamp < getTodayStamp() - (24 * 60 * 60)) postResults.add(PostResult(card))
         }
 
         val client = AwsClient()

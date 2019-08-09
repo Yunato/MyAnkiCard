@@ -29,6 +29,10 @@ class MainFragment : Fragment() {
             startActivity(QAActivity.intent(activity as Context, QAActivity.MODE_TEST_DAILY))
         }
 
+        new_learn_button.setOnClickListener {
+            startActivity(QAActivity.intent(activity as Context, QAActivity.MODE_LEARN_NEW))
+        }
+
         if (App.preference.primaryKey != -1L){
             showDialog()
         }

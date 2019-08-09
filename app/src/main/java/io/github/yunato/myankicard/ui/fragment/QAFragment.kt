@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import io.github.yunato.myankicard.R
 import io.github.yunato.myankicard.model.entity.QACard
-import io.github.yunato.myankicard.other.application.App
 import io.github.yunato.myankicard.other.timer.MyCountDownTimer
 import io.github.yunato.myankicard.ui.adapter.QAViewPagerAdapter
 import kotlinx.android.synthetic.main.fragment_qa.view.*
@@ -55,16 +54,8 @@ abstract class QAFragment : Fragment() {
     protected var pageIndex: Int = 0
     protected var qaIndex: Int = 0
 
-    fun fetchQACardFromDB(stampForFirst: Long): Boolean {
-        val dao = App.cardDataBase.ankiCardDao()
-        val cardList = dao.findAllDaily()
-        val qaCards = mutableListOf<QACard>()
-        for (card in cardList) {
-            if (card.timestamp == stampForFirst) qaCards.clear()
-            qaCards.add(QACard(card))
-        }
+    fun setCardList(qaCards: List<QACard>) {
         mCardList = qaCards
-        return mCardList.isNotEmpty()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

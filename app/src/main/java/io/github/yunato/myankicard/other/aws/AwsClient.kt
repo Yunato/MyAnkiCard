@@ -33,5 +33,7 @@ class AwsClient {
 
     fun getDailyCards(): String? = invoke("GetHundredCardFunc", "")
 
+    fun getNewCards(): String? = invoke("GetNewCardFunc", "")
+
     fun postResult(postResults: List<PostResult>) = invoke("UpdateCardFunc", Gson().toJson(postResults))
 }

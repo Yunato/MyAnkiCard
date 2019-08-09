@@ -37,8 +37,8 @@ class EndFragment : Fragment() {
             mistake_num_text.text = String.format("%s%s", activity?.getText(R.string.mistake_num_text), mistakeNum.toString())
         } else {
             quest_num_text.text = String.format("%s%s", activity?.getText(R.string.card_num_text), questNum.toString())
-            correct_num_text.visibility = View.INVISIBLE
-            mistake_num_text.visibility = View.INVISIBLE
+            correct_card.visibility = View.INVISIBLE
+            mistake_card.visibility = View.INVISIBLE
         }
         return_button.setOnClickListener{
             (activity as QAActivity).switchFragment()
