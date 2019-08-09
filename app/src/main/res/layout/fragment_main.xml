@@ -9,68 +9,93 @@
 
     <Button
             android:id="@+id/daily_learn_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_margin="@dimen/btn_margin"
             android:padding="@dimen/btn_padding"
 
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/random_test_button"
+            app:layout_constraintBottom_toTopOf="@id/new_learn_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/daily_test_button"
+            app:layout_constraintHorizontal_weight="0.5"
+            app:layout_constraintVertical_weight="0.3"
 
-            android:text="@string/daily_button_text"
+            android:text="@string/daily_learn_button_text"
             android:textSize="@dimen/btn_text_size"/>
 
     <Button
             android:id="@+id/daily_test_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_margin="@dimen/btn_margin"
             android:padding="@dimen/btn_padding"
 
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/random_test_button"
+            app:layout_constraintBottom_toTopOf="@+id/random_test_button"
             app:layout_constraintStart_toEndOf="@id/daily_learn_button"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.5"
+            app:layout_constraintVertical_weight="0.3"
 
             android:text="@string/daily_test_button_text"
             android:textSize="@dimen/btn_text_size"/>
 
     <Button
+            android:id="@+id/new_learn_button"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/btn_margin"
+            android:padding="@dimen/btn_padding"
+
+            app:layout_constraintTop_toBottomOf="@id/daily_learn_button"
+            app:layout_constraintBottom_toTopOf="@id/mistake_learn_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/random_test_button"
+            app:layout_constraintHorizontal_weight="0.5"
+            app:layout_constraintVertical_weight="0.3"
+
+            android:text="@string/new_learn_button_text"
+            android:textSize="@dimen/btn_text_size"/>
+
+    <Button
             android:id="@+id/random_test_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_margin="@dimen/btn_margin"
             android:padding="@dimen/btn_padding"
 
             app:layout_constraintTop_toBottomOf="@id/daily_test_button"
             app:layout_constraintBottom_toTopOf="@id/mistake_test_button"
-            app:layout_constraintStart_toEndOf="@id/daily_learn_button"
+            app:layout_constraintStart_toEndOf="@id/new_learn_button"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.5"
+            app:layout_constraintVertical_weight="0.3"
 
-            android:text="@string/random_button_text"
+            android:text="@string/random_test_button_text"
             android:textSize="@dimen/btn_text_size"/>
 
     <Button
             android:id="@+id/mistake_learn_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_margin="@dimen/btn_margin"
             android:padding="@dimen/btn_padding"
 
-            app:layout_constraintTop_toBottomOf="@id/random_test_button"
+            app:layout_constraintTop_toBottomOf="@id/new_learn_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/mistake_test_button"
+            app:layout_constraintHorizontal_weight="0.5"
+            app:layout_constraintVertical_weight="0.3"
 
             android:text="@string/mistake_learn_button_text"
             android:textSize="@dimen/btn_text_size"/>
 
     <Button
             android:id="@+id/mistake_test_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_margin="@dimen/btn_margin"
             android:padding="@dimen/btn_padding"
 
@@ -78,6 +103,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/mistake_learn_button"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.5"
+            app:layout_constraintVertical_weight="0.3"
 
             android:text="@string/mistake_test_button_text"
             android:textSize="@dimen/btn_text_size"/>
