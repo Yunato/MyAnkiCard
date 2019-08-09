@@ -94,7 +94,6 @@ class QAActivity : AppCompatActivity(), CoroutineScope {
         @JvmStatic private val MODE_EXTRA = "io.github.yunato.myankicard.ui.activity.STATE_MODE"
         @JvmStatic val MODE_LEARN_DAILY = 0
         @JvmStatic val MODE_TEST_DAILY = 1
-        @JvmStatic val MODE_TEST_RANDOM = 2
 
         @JvmStatic private val PHASE_START = 0
         @JvmStatic private val PHASE_QA = 1

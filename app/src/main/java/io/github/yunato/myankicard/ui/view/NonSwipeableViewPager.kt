@@ -1,5 +1,6 @@
 package io.github.yunato.myankicard.ui.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v4.view.ViewPager
 import android.util.AttributeSet
@@ -13,5 +14,6 @@ class NonSwipeableViewPager: ViewPager {
 
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean = false
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(ev: MotionEvent?): Boolean = false
 }

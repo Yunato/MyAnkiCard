@@ -7,7 +7,7 @@ import io.github.yunato.myankicard.other.preference.Preference
 
 class App : Application() {
 
-    internal inline fun <reified T : Any> objectOf() = T::class.java
+    private inline fun <reified T : Any> objectOf() = T::class.java
 
     override fun onCreate() {
         super.onCreate()

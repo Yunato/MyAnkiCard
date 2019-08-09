@@ -49,7 +49,7 @@
             app:layout_constraintStart_toEndOf="@id/daily_learn_button"
             app:layout_constraintEnd_toEndOf="parent"
 
-            android:text="@string/daily_test_button_text"
+            android:text="@string/random_button_text"
             android:textSize="@dimen/btn_text_size"/>
 
     <Button

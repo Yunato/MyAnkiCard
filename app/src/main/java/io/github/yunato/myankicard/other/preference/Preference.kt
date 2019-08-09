@@ -6,7 +6,7 @@ import android.preference.PreferenceManager
 
 class Preference(context: Context) {
 
-    val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    private val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     var stamp: Long = sp.getLong(STATE_STAMP, PREFERENCE_INIT)
         set(value) {
