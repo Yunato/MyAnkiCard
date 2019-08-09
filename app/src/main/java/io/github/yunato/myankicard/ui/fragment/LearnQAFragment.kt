@@ -15,7 +15,7 @@ class LearnQAFragment : QAFragment() {
             if(time == 0L){
                 if (qaIndex >= mCardList.size - 1) {
                     isEnded = true
-                    (activity as QAActivity).switchFragment(0, 0, 0)
+                    (activity as QAActivity).switchFragment(mCardList.size, 0, 0)
                 } else {
                     ++qaIndex
                     viewPager.setCurrentItem(++pageIndex, true)

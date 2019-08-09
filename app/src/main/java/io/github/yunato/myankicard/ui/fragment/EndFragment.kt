@@ -31,9 +31,15 @@ class EndFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        quest_num_text.text = String.format("%s%s", activity?.getText(R.string.quest_num_text), questNum.toString())
-        correct_num_text.text = String.format("%s%s", activity?.getText(R.string.correct_num_text), correctNum.toString())
-        mistake_num_text.text = String.format("%s%s", activity?.getText(R.string.mistake_num_text), mistakeNum.toString())
+        if (questNum == correctNum + mistakeNum) {
+            quest_num_text.text = String.format("%s%s", activity?.getText(R.string.quest_num_text), questNum.toString())
+            correct_num_text.text = String.format("%s%s", activity?.getText(R.string.correct_num_text), correctNum.toString())
+            mistake_num_text.text = String.format("%s%s", activity?.getText(R.string.mistake_num_text), mistakeNum.toString())
+        } else {
+            quest_num_text.text = String.format("%s%s", activity?.getText(R.string.card_num_text), questNum.toString())
+            correct_num_text.visibility = View.INVISIBLE
+            mistake_num_text.visibility = View.INVISIBLE
+        }
         return_button.setOnClickListener{
             (activity as QAActivity).switchFragment()
         }
