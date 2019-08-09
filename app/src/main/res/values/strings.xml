@@ -2,21 +2,22 @@
     <string name="app_name">MyAnkiCard</string>
 
     <!--MainFragment-->
-    <string name="daily_learn_button_text">Daily Learn</string>
-    <string name="daily_test_button_text">Daily Test</string>
-    <string name="new_learn_button_text">New Learn</string>
-    <string name="random_test_button_text">Random Test</string>
-    <string name="mistake_learn_button_text">Miss Learn</string>
-    <string name="mistake_test_button_text">Miss Test</string>
+    <string name="daily_learn_button_text">本日分の\n学習</string>
+    <string name="daily_test_button_text">本日分の\nテスト</string>
+    <string name="new_learn_button_text">本日追加の\n復習</string>
+    <string name="random_test_button_text">ランダム\nテスト</string>
+    <string name="mistake_learn_button_text">間違いを\n復習</string>
+    <string name="mistake_test_button_text">間違いを\n再テスト</string>
     <string name="dialog_interruption_message">前回の学習が中断されています．再開しますか？</string>
     <string name="dialog_interruption_positive_text">再開する</string>
     <string name="dialog_interruption_negative_text">しない</string>
 
     <!--StartFragment-->
-    <string name="start_text">Start</string>
+    <string name="start_text">Start!</string>
 
     <!--EndFragment-->
     <string name="quest_num_text">問題数 :</string>
+    <string name="card_num_text">学習数 :</string>
     <string name="correct_num_text">正答数 :</string>
     <string name="mistake_num_text">誤答数 :</string>
     <string name="return_button_text">メニューへ</string>
