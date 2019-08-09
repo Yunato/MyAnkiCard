@@ -8,4 +8,7 @@ data class PostResult(val timestamp: Long,
                       @SerializedName("number_of_consecutive_correct_answers")
                       val consecutive: Long,
                       @SerializedName("state")
-                      val state: Int)
+                      val state: Int) {
+
+    constructor(card: AnkiCard): this(card.timestamp, card.nextDate, card.consecutive, card.state)
+}

@@ -4,18 +4,25 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import com.google.gson.Gson
 import io.github.yunato.myankicard.R
 import io.github.yunato.myankicard.model.entity.AnkiCard
+import io.github.yunato.myankicard.model.entity.PostResult
 import io.github.yunato.myankicard.other.application.App
-import io.github.yunato.myankicard.other.aws.DailyCardsTask
-import io.github.yunato.myankicard.other.aws.PostResultTask
+import io.github.yunato.myankicard.other.aws.AwsClient
+import kotlinx.coroutines.*
+import org.json.JSONObject
 import java.util.*
-import kotlin.concurrent.thread
+import kotlin.coroutines.CoroutineContext
 
-class InitialActivity : AppCompatActivity() {
+class InitialActivity : AppCompatActivity(), CoroutineScope {
 
+    private val job = Job()
     private var stamp: Long = 0
-    lateinit var mCardList: List<AnkiCard>
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +35,19 @@ class InitialActivity : AppCompatActivity() {
         stamp = getTodayStamp()
         if(getStamp() < stamp) {
             removePrimaryKeyForInterruption()
-            postResultCardToLambda()
+            launch {
+                postResultCardToLambda()
+                fetchAnkiCardFromLambda()
+                startMainActivity()
+            }
         } else {
             startMainActivity()
         }
+    }
+
+    override fun onDestroy() {
+        job.cancel()
+        super.onDestroy()
     }
 
     private fun getTodayStamp(): Long {
@@ -59,34 +75,35 @@ class InitialActivity : AppCompatActivity() {
         sp.edit().remove(App.PRAM_PRIMARY_KEY).apply()
     }
 
-    private fun postResultCardToLambda() {
-        val postTask = PostResultTask()
-        postTask.setOnFinishListener(object: PostResultTask.OnFinishListener {
-            override fun onFinish() {
-                fetchAnkiCardFromLambda()
-            }
-        })
-        postTask.execute()
-    }
-
-    private fun fetchAnkiCardFromLambda() {
-        val getTask = DailyCardsTask()
-        getTask.setOnFinishListener(object: DailyCardsTask.OnFinishListener {
-            override fun onFinish(cardList: List<AnkiCard>) {
-                mCardList = cardList
-                insertCardListToDB()
-            }
-        })
-        getTask.execute()
-    }
-
-    private fun insertCardListToDB() {
+    private suspend fun postResultCardToLambda() = withContext(context = Dispatchers.IO) {
         val dao = App.cardDataBase.ankiCardDao()
-        thread {
-            for (card in mCardList) {
-                dao.insertCard(card)
-            }
-            startMainActivity()
+        val postResults = mutableListOf<PostResult>()
+        for (card in dao.findAll()) {
+            postResults.add(PostResult(card))
+        }
+
+        val client = AwsClient()
+        client.postResult(postResults)
+        dao.deleteAll()
+    }
+
+    private suspend fun fetchAnkiCardFromLambda() = withContext(context = Dispatchers.IO) {
+        val client = AwsClient()
+        val response = client.getDailyCards() ?: return@withContext
+
+        val dao = App.cardDataBase.ankiCardDao()
+        val jsonData = try {
+             JSONObject(response).getJSONArray("Items")
+        } catch (e: org.json.JSONException) {
+            Log.e("Error", e.toString())
+            return@withContext
+        }
+        for (index in 0 until jsonData.length()) {
+            val jsonString = jsonData[index].toString()
+            dao.insertCard( Gson().fromJson(jsonString, AnkiCard::class.java).apply {
+                    isDaily = true
+                    state = 0
+            })
         }
     }
 
