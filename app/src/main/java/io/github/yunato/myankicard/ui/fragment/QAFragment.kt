@@ -75,7 +75,7 @@ abstract class QAFragment : Fragment() {
                         card.answer,
                         card.nextDate,
                         card.consecutive,
-                        card.isCorrect
+                        true
                     ))
                 }
                 mCardList = qaCards

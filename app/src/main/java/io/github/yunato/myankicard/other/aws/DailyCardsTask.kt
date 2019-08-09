@@ -53,7 +53,7 @@ class DailyCardsTask : AsyncTask<Unit, Unit, String?>() {
                 for (index in 0 until subJsonData.length()) {
                     val jsonString = subJsonData[index].toString()
                     val item = gson.fromJson(jsonString, AnkiCard::class.java)
-                    item.isCorrect = true
+                    item.state = 0
                     item.isDaily = true
                     rtnList.add(item)
                 }

@@ -38,14 +38,14 @@ class PostResultTask : AsyncTask<Unit, Unit, Unit>() {
                 card.timestamp,
                 card.nextDate,
                 card.consecutive,
-                card.isCorrect
+                card.state
             )
             postResults.add(postResult)
         }
 
         request= InvokeRequest()
         request.apply{
-            functionName = "PostUpdateCardFunc"
+            functionName = "UpdateCardFunc"
             payload = Charset.forName("UTF-8").encode(gson.toJson(postResults))
         }
 

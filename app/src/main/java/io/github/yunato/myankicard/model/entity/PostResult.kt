@@ -7,5 +7,5 @@ data class PostResult(val timestamp: Long,
                       val nextDate: Long,
                       @SerializedName("number_of_consecutive_correct_answers")
                       val consecutive: Long,
-                      @SerializedName("correct")
-                      val isCorrect: Boolean)
+                      @SerializedName("state")
+                      val state: Int)

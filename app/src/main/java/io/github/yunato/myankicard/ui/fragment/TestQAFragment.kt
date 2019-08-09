@@ -36,7 +36,7 @@ class TestQAFragment : QAFragment() {
                     val index = qaIndex
                     thread {
                         val card = dao.findOneCard(mCardList[index].timestamp)
-                        card.isCorrect = isCorrect
+                        card.state = if (isCorrect) 1 else 2
                         App.cardDataBase.ankiCardDao().updateCard(card)
                     }
                     if (!isCorrect) ++mistakeNum
