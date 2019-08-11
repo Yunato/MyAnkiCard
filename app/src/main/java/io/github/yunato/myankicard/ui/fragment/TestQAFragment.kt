@@ -3,9 +3,9 @@ package io.github.yunato.myankicard.ui.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.CardView
 import android.view.View
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import io.github.yunato.myankicard.R
 import io.github.yunato.myankicard.other.application.App
 import io.github.yunato.myankicard.other.timer.MyCountDownTimer

@@ -3,7 +3,7 @@ package io.github.yunato.myankicard.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import io.github.yunato.myankicard.R
 import io.github.yunato.myankicard.ui.fragment.MainFragment
 

@@ -2,11 +2,11 @@ package io.github.yunato.myankicard.ui.fragment
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
 import io.github.yunato.myankicard.R
 import io.github.yunato.myankicard.model.entity.QACard
 import io.github.yunato.myankicard.other.timer.MyCountDownTimer

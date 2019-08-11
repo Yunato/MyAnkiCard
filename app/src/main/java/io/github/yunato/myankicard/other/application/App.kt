@@ -1,7 +1,7 @@
 package io.github.yunato.myankicard.other.application
 
 import android.app.Application
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import io.github.yunato.myankicard.model.database.CardDataBase
 import io.github.yunato.myankicard.other.preference.Preference
 

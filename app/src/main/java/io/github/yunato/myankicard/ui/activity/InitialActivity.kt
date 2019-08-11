@@ -1,8 +1,8 @@
 package io.github.yunato.myankicard.ui.activity
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import io.github.yunato.myankicard.R
 import io.github.yunato.myankicard.model.entity.AnkiCard

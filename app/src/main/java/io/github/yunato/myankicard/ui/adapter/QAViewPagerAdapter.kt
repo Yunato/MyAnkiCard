@@ -1,10 +1,10 @@
 package io.github.yunato.myankicard.ui.adapter
 
-import android.support.v4.app.Fragment
-import android.support.v4.view.PagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.PagerAdapter
 import io.github.yunato.myankicard.R
 import io.github.yunato.myankicard.model.entity.QACard
 import kotlinx.android.synthetic.main.view_holder_qa.view.*

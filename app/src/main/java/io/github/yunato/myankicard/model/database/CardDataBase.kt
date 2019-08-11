@@ -1,7 +1,7 @@
 package io.github.yunato.myankicard.model.database
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
+import androidx.room.Database
+import androidx.room.RoomDatabase
 import io.github.yunato.myankicard.model.dao.AnkiCardDao
 import io.github.yunato.myankicard.model.entity.AnkiCard
 

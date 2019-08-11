@@ -3,10 +3,10 @@ package io.github.yunato.myankicard.ui.fragment
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import io.github.yunato.myankicard.R
 import io.github.yunato.myankicard.other.application.App
 import io.github.yunato.myankicard.ui.activity.QAActivity

@@ -3,10 +3,10 @@ package io.github.yunato.myankicard.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.KeyEvent
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import io.github.yunato.myankicard.R
 import io.github.yunato.myankicard.model.entity.AnkiCard
@@ -106,7 +106,7 @@ class QAActivity : AppCompatActivity(), CoroutineScope {
         return super.dispatchKeyEvent(event)
     }
 
-    fun fetchDailyFromDB(stampForFirst: Long): List<QACard> {
+    private fun fetchDailyFromDB(stampForFirst: Long): List<QACard> {
         val dao = App.cardDataBase.ankiCardDao()
         val cardList = dao.findAllDaily()
         val qaCards = mutableListOf<QACard>()
@@ -117,7 +117,7 @@ class QAActivity : AppCompatActivity(), CoroutineScope {
         return qaCards
     }
 
-    fun fetchNewFromLabmda(): List<QACard> {
+    private fun fetchNewFromLabmda(): List<QACard> {
         val client = AwsClient()
         val response = client.getNewCards() ?: return mutableListOf()
 
