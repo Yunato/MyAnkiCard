@@ -1,5 +1,7 @@
 package io.github.yunato.myankicard.ui.activity
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceFragmentCompat
@@ -21,5 +23,9 @@ class SettingsActivity : AppCompatActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
         }
+    }
+
+    companion object {
+        fun intent(context: Context): Intent = Intent(context, SettingsActivity::class.java)
     }
 }
