@@ -11,6 +11,7 @@
     <string name="dialog_interruption_message">前回の学習が中断されています．再開しますか？</string>
     <string name="dialog_interruption_positive_text">再開する</string>
     <string name="dialog_interruption_negative_text">しない</string>
+    <string name="option_setting_menu">設定</string>
 
     <!--StartFragment-->
     <string name="start_text">Start!</string>
